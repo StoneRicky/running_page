@@ -21,7 +21,7 @@ const colorClassMapping: { [key: string]: string } = {
   '#4dd2ff': 'svg-color-active-cell',
   // Primary Text
   '#fff': 'svg-color-text',
-  '#e1ed5e': 'svg-color-text',
+  '#E18ABF': 'svg-color-text',
 };
 
 // https://vitejs.dev/config/
