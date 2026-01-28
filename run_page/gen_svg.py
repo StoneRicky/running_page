@@ -264,7 +264,7 @@ def main():
         "track": args.track_color,
         "track2": args.track_color2 or args.track_color,
         "special": args.special_color,
-        "special2": args.special_color2 or args.special_color,
+        "special2": args.special_color2,
         "text": args.text_color,
     }
     p.units = args.units
