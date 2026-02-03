@@ -10,7 +10,7 @@ python run_page/db_updater.py
 # 1. 生成github风格的github.svg
 python run_page/gen_svg.py --from-db --title "$TITLE" --type github --github-style "align-firstday" --athlete "$ATHLETE" --special-distance 10 --special-distance2 20 --output assets/github.svg --use-localtime --min-distance 0.5
 
-# 2. gen grid poster (grid.svg)
+# 2. 生成圆形的grid.svg
 python run_page/gen_svg.py --from-db --title "$TITLE_GRID" --type grid --athlete "$ATHLETE" --output assets/grid.svg --special-distance 20 --special-distance2 40 --use-localtime --min-distance 10
 
 Write-Host "gen current year poster" -ForegroundColor Cyan
