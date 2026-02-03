@@ -14,7 +14,7 @@ python run_page/gen_svg.py --from-db --title "$TITLE" --type github --github-sty
 python run_page/gen_svg.py --from-db --title "$TITLE_GRID" --type grid --athlete "$ATHLETE" --output assets/grid.svg --special-distance 20 --special-distance2 40 --use-localtime --min-distance 10
 
 Write-Host "gen current year poster" -ForegroundColor Cyan
-# 3. gen current year poster (github_yyyy.svg)
+# 3. 生成当前年的github_yyyy.svg
 python run_page/gen_svg.py --from-db --type circular --use-localtime
 $CURRENT_YEAR = Get-Date -Format "yyyy"
 python run_page/gen_svg.py --from-db --year $CURRENT_YEAR --language zh_CN --title "$CURRENT_YEAR Running" --type github --github-style "align-firstday" --athlete "$ATHLETE" --special-distance 10 --special-distance2 20 --output "assets/github_$CURRENT_YEAR.svg" --use-localtime --min-distance 0.5
