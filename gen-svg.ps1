@@ -7,7 +7,7 @@ Write-Host "start..." -ForegroundColor Cyan
 
 python run_page/coros_sync.py unsername password
 python run_page/db_updater.py
-# 1. gen main GitHub style poster (github.svg)
+# 1. 生成github风格的github.svg
 python run_page/gen_svg.py --from-db --title "$TITLE" --type github --github-style "align-firstday" --athlete "$ATHLETE" --special-distance 10 --special-distance2 20 --output assets/github.svg --use-localtime --min-distance 0.5
 
 # 2. gen grid poster (grid.svg)
