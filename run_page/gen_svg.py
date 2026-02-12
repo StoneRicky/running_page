@@ -322,13 +322,13 @@ def main():
         output_dir = os.path.dirname(args.output) or "assets"
         for y in years:
             p.years.from_year, p.years.to_year = y, y
-            
+
             # --- 修改开始 ---
             # 强制设置当前年份跨度为 1，确保高度计算只针对单年
-            p.years.calculate_tick() 
-            p.height = 55 + 1 * 43 
+            p.years.calculate_tick()
+            p.height = 55 + 1 * 43
             # --- 修改结束 ---
-            
+
             p.set_tracks(tracks)
             year_title = args.title if args.title else f"{y} Running"
             original_title = p.title
