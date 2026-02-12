@@ -3,51 +3,53 @@ on:
   workflow_dispatch:
 
 permissions:
-  actions: read
+  actions: write # 需要权限读取和操作缓存
   contents: read
 
 jobs:
-  export-all:
+  # 第一步：先找出所有的 Cache Keys
+  list-keys:
     runs-on: ubuntu-latest
+    outputs:
+      keys: ${{ steps.get-keys.outputs.keys }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: List and Download All Caches
+      - id: get-keys
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # 1. 获取 Cache Key 列表
-          KEYS=$(gh cache list --limit 100 --json key --jq '.[] | .key' | grep "^track_data-")
+          # 获取前 10 个匹配 track_data 的 key，转成 JSON 数组格式
+          KEYS=$(gh cache list --limit 10 --json key --jq '[.[].key | select(startswith("track_data-"))]')
+          echo "keys=$KEYS" >> "$GITHUB_OUTPUT"
 
-          if [ -z "$KEYS" ]; then
-            echo "No caches found starting with track_data-"
-            exit 0
-          fi
+  # 第二步：根据找出的 Keys 矩阵式导出
+  export-files:
+    needs: list-keys
+    runs-on: ubuntu-latest
+    if: needs.list-keys.outputs.keys != '[]'
+    strategy:
+      matrix:
+        cache_key: ${{ fromJson(needs.list-keys.outputs.keys) }}
+    steps:
+      - name: Restore Cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            data.db
+            assets/
+            imported.json
+          key: ${{ matrix.cache_key }}
 
-          echo "Found caches: $KEYS"
+      - name: Prepare Folder
+        run: |
+          mkdir -p "export/${{ matrix.cache_key }}"
+          # 移动文件到对应 key 的文件夹
+          cp data.db "export/${{ matrix.cache_key }}/" || true
+          cp -r assets "export/${{ matrix.cache_key }}/" || true
+          cp imported.json "export/${{ matrix.cache_key }}/" || true
 
-          # 2. 循环处理
-          for KEY in $KEYS; do
-            echo "Downloading $KEY..."
-            # 创建对应 Key 的存放目录
-            TARGET_DIR="output/$KEY"
-            mkdir -p "$TARGET_DIR"
-            
-            # 使用更兼容的命令：先进入目录，再执行下载
-            # gh cache download 默认会将缓存下载为以 key 命名的 .zip 文件
-            (cd "$TARGET_DIR" && gh cache download "$KEY" -R ${{ github.repository }})
-            
-            # 自动解压并删除原 zip (方便你直接查看内容)
-            if [ -f "$TARGET_DIR/$KEY.zip" ]; then
-                unzip -o "$TARGET_DIR/$KEY.zip" -d "$TARGET_DIR"
-                rm "$TARGET_DIR/$KEY.zip"
-            fi
-          done
-
-      - name: Upload All as Artifacts
+      - name: Upload Single Cache
         uses: actions/upload-artifact@v4
         with:
-          name: all-track-data-backups
-          path: output/
-          retention-days: 5
+          name: ${{ matrix.cache_key }}
+          path: export/${{ matrix.cache_key }}/
+          retention-days: 1
