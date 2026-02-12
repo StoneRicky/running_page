@@ -1,0 +1,15 @@
+name: Clear All Caches
+on: workflow_dispatch # 手动触发
+
+permissions:
+  actions: write # 必须有写入权限才能删除缓存
+
+jobs:
+  delete-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete caches
+        run: |
+          gh cache delete --all -R ${{ github.repository }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
