@@ -1,0 +1,23 @@
+name: Export Cache Content
+on: workflow_dispatch
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore Cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            data.db
+            assets/
+            imported.json
+          key: track_data # 这里填你完整的缓存 Key 或前缀
+
+      - name: Upload as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cache-content-debug
+          path: |
+            data.db
+            assets/
