@@ -321,22 +321,30 @@ def main():
         years = p.years.all()[:]
         output_dir = os.path.dirname(args.output) or "assets"
         for y in years:
+            # 设置当前循环的年份范围
             p.years.from_year, p.years.to_year = y, y
 
-            # --- 修改开始 ---
-            # 强制设置当前年份跨度为 1，确保高度计算只针对单年
-            p.years.calculate_tick()
-            p.height = 55 + 1 * 43
-            # --- 修改结束 ---
+            # 关键修复：手动计算该范围内的年份跨度
+            # 对于单年生成，real_year 应该等于 1
+            p.years.real_year = p.years.to_year - p.years.from_year + 1
 
+            # 根据单年跨度重新设置高度 (基础高度 55 + 每行年份高度 43)
+            p.height = 55 + p.years.real_year * 43
+
+            # 重新过滤当前年份的轨道数据
             p.set_tracks(tracks)
+
+            # 设置标题
             year_title = args.title if args.title else f"{y} Running"
             original_title = p.title
             p.title = year_title
+
+            # 执行绘制
             p.draw(
                 drawers[args.type],
                 os.path.join(output_dir, f"github_{str(y)}.svg"),
             )
+            # 恢复标题以便下次循环
             p.title = original_title
     else:
         p.draw(drawers[args.type], args.output)
