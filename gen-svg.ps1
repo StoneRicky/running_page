@@ -24,7 +24,7 @@ python run_page/gen_svg.py --from-db --title "$TITLE_GRID" --type grid --athlete
 
 # 2. 关键修改：生成所有历史年份的 GitHub 统计图
 # 使用 --generate-all-years 参数可以一次性补齐 2024, 2023 等所有年份
-python run_page/gen_svg.py --from-db --type github --year all --generate-all-years --github-style "align-firstday" --athlete "$ATHLETE" --special-distance 10 --special-distance2 20 --use-localtime --min-distance 0.5
+python run_page/gen_svg.py --from-db --year all --generate-all-years --type github --github-style "align-firstday" --athlete "$ATHLETE" --special-distance 10 --special-distance2 20 --use-localtime --min-distance 0.5
 
 # 3. 生成所有历史年份的环形图
 python run_page/gen_svg.py --from-db --type circular --use-localtime
