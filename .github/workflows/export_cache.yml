@@ -3,33 +3,40 @@ on:
   workflow_dispatch:
 
 permissions:
-  actions: write # 需要权限读取和操作缓存
+  actions: read
   contents: read
 
 jobs:
-  # 第一步：先找出所有的 Cache Keys
+  # 第一步：获取所有匹配的 Key 列表
   list-keys:
     runs-on: ubuntu-latest
     outputs:
       keys: ${{ steps.get-keys.outputs.keys }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4 # 必须加上这一步，否则 gh 命令会报错
+
       - id: get-keys
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # 获取前 10 个匹配 track_data 的 key，转成 JSON 数组格式
+          # 获取前 10 个以 track_data- 开头的 key
           KEYS=$(gh cache list --limit 10 --json key --jq '[.[].key | select(startswith("track_data-"))]')
+          echo "Found keys: $KEYS"
           echo "keys=$KEYS" >> "$GITHUB_OUTPUT"
 
-  # 第二步：根据找出的 Keys 矩阵式导出
+  # 第二步：循环导出每个缓存并存为 Artifact
   export-files:
     needs: list-keys
     runs-on: ubuntu-latest
-    if: needs.list-keys.outputs.keys != '[]'
+    if: needs.list-keys.outputs.keys != '[]' && needs.list-keys.outputs.keys != ''
     strategy:
       matrix:
         cache_key: ${{ fromJson(needs.list-keys.outputs.keys) }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Restore Cache
         uses: actions/cache/restore@v4
         with:
@@ -41,15 +48,16 @@ jobs:
 
       - name: Prepare Folder
         run: |
-          mkdir -p "export/${{ matrix.cache_key }}"
-          # 移动文件到对应 key 的文件夹
-          cp data.db "export/${{ matrix.cache_key }}/" || true
-          cp -r assets "export/${{ matrix.cache_key }}/" || true
-          cp imported.json "export/${{ matrix.cache_key }}/" || true
+          # 创建以 Key 命名的唯一文件夹
+          DIR="export_${{ matrix.cache_key }}"
+          mkdir -p "$DIR"
+          [ -f data.db ] && cp data.db "$DIR/"
+          [ -d assets ] && cp -r assets "$DIR/"
+          [ -f imported.json ] && cp imported.json "$DIR/"
 
-      - name: Upload Single Cache
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.cache_key }}
-          path: export/${{ matrix.cache_key }}/
+          path: export_${{ matrix.cache_key }}/
           retention-days: 1
