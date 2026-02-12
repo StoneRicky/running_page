@@ -1,23 +1,45 @@
-name: Export Cache Content
-on: workflow_dispatch
+name: Export All Track Data Caches
+on: 
+  workflow_dispatch: # 点击按钮，全量导出
+
+permissions:
+  actions: read
+  contents: read
 
 jobs:
-  export:
+  export-all:
     runs-on: ubuntu-latest
     steps:
-      - name: Restore Cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            data.db
-            assets/
-            imported.json
-          key: track_data # 这里填你完整的缓存 Key 或前缀
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Upload as Artifact
+      - name: List and Download All Caches
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # 1. 获取所有以 track_data 开头的 cache key 列表
+          # --limit 100 可以确保捞到足够多的历史缓存
+          KEYS=$(gh cache list --ref ${{ github.ref }} --limit 100 --json key --jq '.[] | .key' | grep "^track_data-")
+
+          echo "Found the following caches:"
+          echo "$KEYS"
+
+          # 2. 循环处理每一个 key
+          for KEY in $KEYS; do
+            echo "Processing $KEY..."
+            mkdir -p "output/$KEY"
+            
+            # 使用 gh cache download 命令下载特定 key 的缓存到指定文件夹
+            # 注：gh cache download 会下载一个 zip 包
+            gh cache download "$KEY" -R ${{ github.repository }} -D "output/$KEY" || echo "Failed to download $KEY"
+            
+            # 自动解压（GitHub 缓存下载下来是 zip）
+            # unzip -o "output/$KEY/*.zip" -d "output/$KEY" 2>/dev/null || true
+          done
+
+      - name: Upload All as Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: cache-content-debug
-          path: |
-            data.db
-            assets/
+          name: all-track-data-backups
+          path: output/
+          retention-days: 5 # 产物保留5天
