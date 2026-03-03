@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useMemo } from 'react';
 import Stat from '@/components/Stat';
 import useActivities from '@/hooks/useActivities';
 import { formatPace } from '@/utils/utils';
@@ -19,11 +19,18 @@ const YearStat = ({
   // for hover
   const [hovered, eventHandlers] = useHover();
   // lazy Component
-  const YearSVG = lazy(() => loadSvgComponent(yearStats, `./year_${year}.svg`));
-  const GithubYearSVG = lazy(() =>
-    loadSvgComponent(githubYearStats, `./github_${year}.svg`)
-  );
+  // const YearSVG = lazy(() => loadSvgComponent(yearStats, `./year_${year}.svg`));
+  // const GithubYearSVG = lazy(() =>
+  //   loadSvgComponent(githubYearStats, `./github_${year}.svg`)
+  // );
+// 2. 使用 useMemo 包裹 lazy，防止重复创建组件
+  const YearSVG = useMemo(() => {
+    return lazy(() => loadSvgComponent(yearStats, `./year_${year}.svg`));
+  }, [year]); // 只有 year 变化时才重新生成
 
+  const GithubYearSVG = useMemo(() => {
+    return lazy(() => loadSvgComponent(githubYearStats, `./github_${year}.svg`));
+  }, [year]);
   if (years.includes(year)) {
     runs = runs.filter((run) => run.start_date_local.slice(0, 4) === year);
   }
