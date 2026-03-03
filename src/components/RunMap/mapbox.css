@@ -811,3 +811,12 @@ a.mapboxgl-ctrl-logo.mapboxgl-compact {
   .mapboxgl-canvas {
   touch-action: pan-x pan-y;
 }
+/* 强制导航控制组中的所有按钮在悬停时显示小手 */
+.mapboxgl-ctrl-group button {
+  cursor: pointer !important;
+}
+
+/* 确保指南针和缩放图标本身也具有手型光标 */
+.mapboxgl-ctrl-icon {
+  cursor: pointer !important;
+}

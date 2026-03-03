@@ -524,8 +524,18 @@ const RunMap = ({
       <span className={styles.runTitle}>{title}</span>
       <FullscreenControl style={fullscreenButton} />
       {!PRIVACY_MODE && <LightsControl setLights={setLights} lights={lights} />}
+      {/* 1. 右上角：只显示指南针（回正按钮） */}
+      <NavigationControl
+        showCompass={true}
+        showZoom={false}
+        position={'top-right'}
+        style={{ opacity: 0.3, marginTop: '105px' }}
+      />
+
+      {/* 2. 右下角：只显示缩放按钮（加减号） */}
       <NavigationControl
         showCompass={false}
+        showZoom={true}
         position={'bottom-right'}
         style={{ opacity: 0.3 }}
       />
