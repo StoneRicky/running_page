@@ -1,4 +1,4 @@
-import MapboxLanguage from '@mapbox/mapbox-gl-language';
+import mapboxgl from 'mapbox-gl'; // 👈 必须添加这一行！
 import React, {
   useRef,
   useCallback,
@@ -241,7 +241,28 @@ const RunMap = ({
       if (ref !== null) {
         const map = ref.getMap();
         if (map && IS_CHINESE) {
-          map.addControl(new MapboxLanguage({ defaultLanguage: 'zh-Hans' }));
+          map.on('style.load', () => {
+            const style = map.getStyle();
+            if (style && style.layers) {
+              style.layers.forEach((layer) => {
+                // 只要是文字图层且有 text-field，我们就强制它使用中文
+                if (
+                  layer.type === 'symbol' &&
+                  layer.layout &&
+                  layer.layout['text-field']
+                ) {
+                  map.setLayoutProperty(layer.id, 'text-field', [
+                    'coalesce',
+                    ['get', 'name'], // 默认
+                    // ['get', 'name:zh-Hans'], // 1. 理论上的简体
+                    // ['get', 'name:zh-cn'], // 2. 某些数据源的简体写法
+                    // ['get', 'name:zh'], // 3. 你的数据源目前命中的是这一行（显示为繁体）
+                    // ['get', 'name:en'], // 4. 英文
+                  ]);
+                }
+              });
+            }
+          });
         }
         // all style resources have been downloaded
         // and the first visually complete rendering of the base style has occurred.
