@@ -259,6 +259,12 @@ const RunMap = ({
                     // ['get', 'name:zh'], // 3. 你的数据源目前命中的是这一行（显示为繁体）
                     // ['get', 'name:en'], // 4. 英文
                   ]);
+                  // 修改字体（Font Stack）
+                  // 注意：必须使用 MapTiler 服务器上存在的字体名称
+                  map.setLayoutProperty(layer.id, 'text-font', [
+                    // 'Noto Sans Regular', // 优先尝试 Noto Sans（对中文支持较好）
+                    'Roboto Regular', // 备选
+                  ]);
                 }
               });
             }
