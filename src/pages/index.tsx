@@ -310,15 +310,18 @@ const Index = () => {
     }
   }, [runs, singleRunId, locateActivity]);
 
+  // 增加一个 ref 来记录上一次处理的年份
+  const lastProcessedYear = useRef(year);
   // Update bounds when geoData changes
   useEffect(() => {
-    if (singleRunId === null) {
+    if (singleRunId === null && lastProcessedYear.current !== year) {
       setViewState((prev) => ({
         ...prev,
         ...bounds,
       }));
+      lastProcessedYear.current = year;
     }
-  }, [bounds, singleRunId]);
+  }, [bounds, singleRunId, year]);
 
   // Animate geoData when runs change
   useEffect(() => {
