@@ -108,13 +108,20 @@ def update_or_create_activity(session, run_activity):
             # or China for #176 to fix
             if not location_country and start_point or location_country == "China":
                 try:
-                    location_country = str(
-                        g.reverse(
-                            f"{start_point.lat}, {start_point.lon}", language="zh-CN"  # type: ignore
-                        )
+                    # 1. 执行逆地理编码请求
+                    location_res = g.reverse(
+                        f"{start_point.lat}, {start_point.lon}", language="zh-CN"
                     )
+
+                    # 2. 打印返回的完整结果（包含原始字典数据）
+                    print(f"DEBUG: OSM Response for ID {run_activity.id}:")
+                    print(location_res.raw if location_res else "No location found")
+
+                    # 3. 将结果转换为字符串赋值
+                    location_country = str(location_res)
                 # limit (only for the first time)
                 except Exception:
+                    print(f"DEBUG: OSM Request failed for ID {run_activity.id}: {str(e)}")
                     try:
                         location_country = str(
                             g.reverse(
