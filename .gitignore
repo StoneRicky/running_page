@@ -12,6 +12,7 @@ yarn-error.log
 .sass-cache/
 _posts/
 _site/
+# FIT_OUT
 
 .mypy_cache
 
@@ -26,3 +27,9 @@ route.png
 route.svg
 
 .env
+# assets/year*.svg
+# assets/grid*.svg
+# assets/mol*.svg
+# assets/github*.svg
+run_page/data.db
+run_page/data.parquet
