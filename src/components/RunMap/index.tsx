@@ -109,7 +109,7 @@ const RunMap = ({
       const currentZoom = map.getZoom();
       const currentBearing = map.getBearing();
       const currentPitch = map.getPitch();
-
+      
       // Apply new style
       map.setStyle(mapStyle);
 
@@ -262,8 +262,8 @@ const RunMap = ({
                   // 修改字体（Font Stack）
                   // 注意：必须使用 MapTiler 服务器上存在的字体名称
                   map.setLayoutProperty(layer.id, 'text-font', [
-                    // 'Noto Sans Regular', // 优先尝试 Noto Sans（对中文支持较好）
-                    'Roboto Regular', // 备选
+                    'Noto Sans Regular', // 优先尝试 Noto Sans（对中文支持较好）
+                    // 'Roboto Regular', // 备选
                   ]);
                 }
               });
