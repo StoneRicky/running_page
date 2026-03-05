@@ -2,7 +2,8 @@ import datetime
 import random
 import string
 import time
-
+from timezonefinder import TimezoneFinder
+tf = TimezoneFinder()
 from geopy.geocoders import options, Nominatim
 from sqlalchemy import (
     Column,
@@ -109,12 +110,32 @@ def update_or_create_activity(session, run_activity):
             # or China for #176 to fix
             if not location_country and start_point or location_country == "China":
                 try:
+                    # 1. 打印原始 UTC 时间和经纬度
+                    print(f"\nDEBUG: Activity ID {run_activity.id}")
+                    print(f"DEBUG:  - Raw Start Date (UTC): {run_activity.start_date}")
+                    print(f"DEBUG:  - Coordinates: Lat {start_point.lat}, Lon {start_point.lon}")
+
+                    # 2. 获取时区名称（直接使用 tf 对象，不再用 self）
+                    try:
+                        tz_name = tf.timezone_at(lng=start_point.lon, lat=start_point.lat)
+                    except Exception:
+                        tz_name = "Asia/Shanghai" # 如果解析失败，默认给个国内时区
+
+                    print(f"DEBUG:  - Detected Timezone Name: {tz_name}")
+                    # 接口调用前
+                    print(f"DEBUG:  - Calling OSM for location...")
                     time.sleep(1) # 强制每解析一条数据休息 1 秒，这样最稳
                     # 1. 执行逆地理编码请求
                     location_res = g.reverse(
                         f"{start_point.lat}, {start_point.lon}", language="zh-CN"
                     )
 
+                    # 2. 如果解析成功，计算并打印转换后的本地时间
+                    if location_res:
+                        from utils import adjust_time # 确保导入了工具函数
+                        local_date = adjust_time(run_activity.start_date, tz_name)
+                        print(f"DEBUG:  - Final Local Date: {local_date}")
+                        print(f"DEBUG:  - Address: {location_res.address}")
                     # 2. 打印返回的完整结果（包含原始字典数据）
                     print(f"DEBUG: Attempting OSM reverse geocode for ID {run_activity.id}")
                     print(f"DEBUG: Parameters - Lat: {start_point.lat}, Lon: {start_point.lon}")
