@@ -1,6 +1,7 @@
 import datetime
 import random
 import string
+import time
 
 from geopy.geocoders import options, Nominatim
 from sqlalchemy import (
@@ -108,13 +109,15 @@ def update_or_create_activity(session, run_activity):
             # or China for #176 to fix
             if not location_country and start_point or location_country == "China":
                 try:
+                    time.sleep(1) # 强制每解析一条数据休息 1 秒，这样最稳
                     # 1. 执行逆地理编码请求
                     location_res = g.reverse(
                         f"{start_point.lat}, {start_point.lon}", language="zh-CN"
                     )
 
                     # 2. 打印返回的完整结果（包含原始字典数据）
-                    print(f"DEBUG: OSM Response for ID {run_activity.id}:")
+                    print(f"DEBUG: Attempting OSM reverse geocode for ID {run_activity.id}")
+                    print(f"DEBUG: Parameters - Lat: {start_point.lat}, Lon: {start_point.lon}")
                     print(location_res.raw if location_res else "No location found")
 
                     # 3. 将结果转换为字符串赋值
@@ -166,8 +169,9 @@ def update_or_create_activity(session, run_activity):
                 run_activity.map and run_activity.map.summary_polyline or ""
             )
     except Exception as e:
-        print(f"something wrong with {run_activity.id}")
-        print(str(e))
+        import traceback
+        print(f"DEBUG: OSM Request failed for ID {run_activity.id}")
+        traceback.print_exc()
 
     return created
 
