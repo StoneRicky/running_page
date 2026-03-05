@@ -31,5 +31,5 @@ route.svg
 # assets/grid*.svg
 # assets/mol*.svg
 # assets/github*.svg
-run_page/data.db
-run_page/data.parquet
+# run_page/data.db
+# run_page/data.parquet
