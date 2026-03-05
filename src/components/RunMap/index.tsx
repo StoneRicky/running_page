@@ -109,7 +109,7 @@ const RunMap = ({
       const currentZoom = map.getZoom();
       const currentBearing = map.getBearing();
       const currentPitch = map.getPitch();
-      
+
       // Apply new style
       map.setStyle(mapStyle);
 
