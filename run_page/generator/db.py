@@ -205,6 +205,7 @@ def update_or_create_activity(session, run_activity):
             )
     except Exception as e:
         import traceback
+
         print(f"DEBUG: OSM Request failed for ID {run_activity.id}: {e}")
         traceback.print_exc()
 
