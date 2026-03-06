@@ -46,6 +46,26 @@ ACTIVITY_KEYS = [
     "average_speed",
     "elevation_gain",
 ]
+# 新增：这批文件已经自带北京时间，不需要再根据时区进行偏移
+SKIP_TIMEZONE_ADJUST_IDS = [
+    1759919048000,
+    1742207842000,
+    1727604498000,
+    1728554734000,
+    1728641277000,
+    1728986928000,
+    1729032203000,
+    1730328560000,
+    1730760383000,
+    1730846969000,
+    1731278715000,
+    1731538361000,
+    1732056186000,
+    1732406890000,
+    1732574589000,
+    1732747491000,
+    1733179658000,
+]
 
 
 class Activity(Base):
@@ -104,27 +124,42 @@ def update_or_create_activity(session, run_activity):
             current_elevation_gain = float(run_activity.elevation_gain)
 
         if not activity:
+            # --- 核心逻辑：时区补偿修正 ---
+            start_date_local = run_activity.start_date_local
+
+            # 如果 ID 在白名单中，强制让本地时间等于原始 UTC 时间字段内容
+            if int(run_activity.id) in SKIP_TIMEZONE_ADJUST_IDS:
+                print(
+                    f"DEBUG: Found non-standard FIT (ID: {run_activity.id}), force skipping TZ adjust."
+                )
+                start_date_local = run_activity.start_date
             start_point = run_activity.start_latlng
             location_country = getattr(run_activity, "location_country", "")
             # or China for #176 to fix
             if not location_country and start_point or location_country == "China":
                 try:
-                    time.sleep(1) # 强制每解析一条数据休息 1 秒，这样最稳
+                    time.sleep(1)  # 强制每解析一条数据休息 1 秒，这样最稳
                     # 1. 执行逆地理编码请求
                     location_res = g.reverse(
                         f"{start_point.lat}, {start_point.lon}", language="zh-CN"
                     )
 
                     # 2. 打印返回的完整结果（包含原始字典数据）
-                    print(f"DEBUG: Attempting OSM reverse geocode for ID {run_activity.id}")
-                    print(f"DEBUG: Parameters - Lat: {start_point.lat}, Lon: {start_point.lon}")
+                    print(
+                        f"DEBUG: Attempting OSM reverse geocode for ID {run_activity.id}"
+                    )
+                    print(
+                        f"DEBUG: Parameters - Lat: {start_point.lat}, Lon: {start_point.lon}"
+                    )
                     print(location_res.raw if location_res else "No location found")
 
                     # 3. 将结果转换为字符串赋值
                     location_country = str(location_res)
                 # limit (only for the first time)
-                except Exception:
-                    print(f"DEBUG: OSM Request failed for ID {run_activity.id}: {str(e)}")
+                except Exception as e:
+                    print(
+                        f"DEBUG: OSM Request failed for ID {run_activity.id}: {str(e)}"
+                    )
                     try:
                         location_country = str(
                             g.reverse(
@@ -144,7 +179,7 @@ def update_or_create_activity(session, run_activity):
                 type=run_activity.type,
                 subtype=run_activity.subtype,
                 start_date=run_activity.start_date,
-                start_date_local=run_activity.start_date_local,
+                start_date_local=start_date_local,
                 location_country=location_country,
                 average_heartrate=run_activity.average_heartrate,
                 average_speed=float(run_activity.average_speed),
@@ -170,6 +205,7 @@ def update_or_create_activity(session, run_activity):
             )
     except Exception as e:
         import traceback
+
         print(f"DEBUG: OSM Request failed for ID {run_activity.id}")
         traceback.print_exc()
 
