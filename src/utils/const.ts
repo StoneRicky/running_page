@@ -234,8 +234,8 @@ export const SWIMMING_COLOR = 'rgb(255,51,51)';
 export const MAP_TILE_VENDOR = 'maptiler';
 
 // map tiles style name, see MAP_TILE_STYLES for more details
-export const MAP_TILE_STYLE_LIGHT = 'dataviz-light';
-export const MAP_TILE_STYLE_DARK = 'backdrop-dark';
+export const MAP_TILE_STYLE_LIGHT = 'dataviz-blueLine';
+export const MAP_TILE_STYLE_DARK = 'backdrop-dark-3D';
 
 // access token. you can apply a new one, it's free.
 // maptiler: Gt5R0jT8tuIYxW6sNrAg | sign up at https://cloud.maptiler.com/auth/widget
@@ -263,9 +263,13 @@ export const MAP_TILE_STYLES = {
     'dark-matter': 'https://tiles.openfreemap.org/styles/dark',
   },
   maptiler: {
-    // 'dataviz-light': 'https://api.maptiler.com/maps/dataviz-v4/style.json?key=',
-    'dataviz-light':
+    'dataviz-light': 'https://api.maptiler.com/maps/dataviz-v4/style.json?key=',
+    'dataviz-blueLine':
       'https://api.maptiler.com/maps/019cc1f2-1c5f-7025-8b79-6cc663ffb443/style.json?key=',
+    'backdrop-3D':
+      'https://api.maptiler.com/maps/019cc21a-109c-7408-8d4e-31d8d06dc326/style.json?key=',
+    'backdrop-dark-3D':
+      'https://api.maptiler.com/maps/019cc225-be32-73a2-aa30-9664841e1c8a/style.json?key=',
     'dataviz-dark':
       'https://api.maptiler.com/maps/dataviz-dark/style.json?key=',
     'basic-light': 'https://api.maptiler.com/maps/basic-v2/style.json?key=',
