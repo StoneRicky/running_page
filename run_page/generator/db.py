@@ -105,7 +105,9 @@ class Activity(Base):
 def update_or_create_activity(session, run_activity):
     created = False
     # 打印当前正在处理的 ID 和它的原始本地时间
-    print(f"DEBUG: Processing ID: {run_activity.id} | Raw Local: {run_activity.start_date_local}")
+    print(
+        f"DEBUG: Processing ID: {run_activity.id} | Raw Local: {run_activity.start_date_local}"
+    )
     try:
         activity = (
             session.query(Activity).filter_by(run_id=int(run_activity.id)).first()
@@ -133,21 +135,37 @@ def update_or_create_activity(session, run_activity):
             # 定义这批问题文件的特征时间点（去掉日期，只看时间，或者全匹配）
             # 既然你已经有一份准确的时间清单，我们直接用时间字符串匹配
             error_time_list = [
-                "2025-09-14 06:01:15", "2025-09-17 18:06:15", "2025-09-29 18:08:18",
-                "2025-10-09 18:05:34", "2025-10-10 18:07:57", "2025-10-14 18:08:48",
-                "2025-10-16 06:43:23", "2025-10-31 06:49:20", "2025-11-05 06:46:23",
-                "2025-11-06 06:49:29", "2025-11-11 06:45:15", "2025-11-14 06:52:41",
-                "2025-11-20 06:43:06", "2025-11-24 08:08:10", "2025-11-26 06:43:09",
-                "2025-11-28 06:44:51", "2025-12-03 06:47:38"
+                "2025-09-14 06:01:15",
+                "2025-09-17 18:06:15",
+                "2025-09-29 18:08:18",
+                "2025-10-09 18:05:34",
+                "2025-10-10 18:07:57",
+                "2025-10-14 18:08:48",
+                "2025-10-16 06:43:23",
+                "2025-10-31 06:49:20",
+                "2025-11-05 06:46:23",
+                "2025-11-06 06:49:29",
+                "2025-11-11 06:45:15",
+                "2025-11-14 06:52:41",
+                "2025-11-20 06:43:06",
+                "2025-11-24 08:08:10",
+                "2025-11-26 06:43:09",
+                "2025-11-28 06:44:51",
+                "2025-12-03 06:47:38",
             ]
 
             # 匹配逻辑：如果原始时间在黑名单里，或者 ID 匹配
-            if raw_start_str in error_time_list or int(run_activity.id) in SKIP_TIMEZONE_ADJUST_IDS:
+            if (
+                raw_start_str in error_time_list
+                or int(run_activity.id) in SKIP_TIMEZONE_ADJUST_IDS
+            ):
                 print(f"!!! [MATCHED BY TIME] Found target activity: {raw_start_str}")
                 start_date_local = run_activity.start_date
             else:
-                print(f"DEBUG: Normal activity {raw_start_str}, keeping original local logic.")
-                
+                print(
+                    f"DEBUG: Normal activity {raw_start_str}, keeping original local logic."
+                )
+
             start_point = run_activity.start_latlng
             location_country = getattr(run_activity, "location_country", "")
             # or China for #176 to fix
