@@ -107,12 +107,12 @@ export const useTheme = () => {
     const root = window.document.documentElement;
 
     // Set attribute and save to localStorage for both themes
-    root.setAttribute('data-theme', themeState);
-    localStorage.setItem('theme', themeState);
-  }, [themeState]);
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   return {
-    theme: themeState,
+    theme,
     setTheme,
   };
 };

@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
 import type { ReactElement } from 'react';
+import { useState } from 'react';
 import getSiteMetadata from '@/hooks/useSiteMetadata';
 import { useTheme, Theme } from '@/hooks/useTheme';
 import styles from './style.module.css';
 
 const Header = () => {
-  const { logo, siteUrl, navLinks } = useSiteMetadata();
-  const { theme,setTheme } = useTheme();
+  const { logo, siteUrl, navLinks } = getSiteMetadata();
+  const { theme, setTheme } = useTheme();
 
   const savedTheme = localStorage.getItem('theme');
   const localStorageThemeIndex = savedTheme === 'dark' ? 0 : 1;
@@ -59,7 +60,7 @@ const Header = () => {
 
   return (
     <>
-      <nav className="mx-auto mt-12 flex w-full max-w-screen-2xl min-w-max items-center justify-between pl-6 lg:px-16">
+      <nav className="mx-auto flex w-full min-w-max items-center justify-between pt-12 pl-6 lg:px-16">
         <div className="w-1/4">
           <Link to={siteUrl}>
             <picture>

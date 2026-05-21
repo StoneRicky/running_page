@@ -167,7 +167,7 @@ const YearStat = ({
           />
         )}
       </section>
-      {year !== 'Total' && hovered && YearSVG && GithubYearSVG && (
+      {year !== 'Total' && YearSVG && GithubYearSVG && (
         <Suspense fallback="loading...">
           <YearSVG className="year-svg my-4 h-4/6 w-4/6 border-0 p-0" />
           <GithubYearSVG className="github-year-svg my-4 h-auto w-full border-0 p-0" />
