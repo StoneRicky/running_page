@@ -174,7 +174,7 @@ def update_or_create_activity(session, run_activity):
                     time.sleep(1)  # 强制每解析一条数据休息 1 秒，这样最稳
                     # 1. 执行逆地理编码请求
                     location_res = g.reverse(
-                        f"{start_point.lat}, {start_point.lon}", language="zh-CN"
+                        f"{start_point.lat}, {start_point.lon}", language="zh-CN", timeout=15
                     )
 
                     # 2. 打印返回的完整结果（包含原始字典数据）
@@ -198,6 +198,7 @@ def update_or_create_activity(session, run_activity):
                             g.reverse(
                                 f"{start_point.lat}, {start_point.lon}",
                                 language="zh-CN",  # type: ignore
+                                timeout=15,
                             )
                         )
                     except Exception:

@@ -1,16 +1,11 @@
-import { ComponentType } from 'react';
-
-// 定义一个空的占位组件，当找不到 SVG 或不需要加载时显示
+import type { ComponentType, SVGProps } from 'react';
 const EmptySvg = () => null;
-
+type SvgComponentType = ComponentType<SVGProps<SVGSVGElement>>;
 type SvgComponent = {
-  default: ComponentType<any>;
+  default: SvgComponentType;
 };
 
-const FailedLoadSvg = () => {
-  console.log('Failed to load SVG component');
-  return <div></div>;
-};
+const FailedLoadSvg: SvgComponentType = () => null;
 
 export const loadSvgComponent = async (
   stats: Record<string, () => Promise<unknown>>,
@@ -33,7 +28,7 @@ export const loadSvgComponent = async (
   }
   try {
     const module = await stats[path]();
-    return { default: module as ComponentType<any> };
+    return { default: module as SvgComponentType };
   } catch (error) {
     console.error(error);
     return { default: FailedLoadSvg };

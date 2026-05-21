@@ -322,8 +322,9 @@ def main():
         output_dir = os.path.dirname(args.output) or "assets"
         for y in years:
             p.years.from_year, p.years.to_year = y, y
-
-            # 重新过滤当前年份的数据
+            # Single year = height for exactly 1 year row
+            p.height = 55 + 1 * 43
+            # Re-set tracks for this year's data
             p.set_tracks(tracks)
 
             # --- 核心修复：强制重置高度 ---
