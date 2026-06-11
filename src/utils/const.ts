@@ -27,9 +27,6 @@ const MAP_LAYER_LIST = [
   'country-label',
 ];
 
-const USE_GOOGLE_ANALYTICS = false;
-const GOOGLE_ANALYTICS_TRACKING_ID = '';
-
 // styling: set to `true` if you want dash-line route
 const USE_DASH_LINE = false;
 // styling: route line opacity: [0, 1]
@@ -143,8 +140,6 @@ const ACTIVITY_TOTAL = {
 };
 
 export {
-  USE_GOOGLE_ANALYTICS,
-  GOOGLE_ANALYTICS_TRACKING_ID,
   CHINESE_LOCATION_INFO_MESSAGE_FIRST,
   CHINESE_LOCATION_INFO_MESSAGE_SECOND,
   MAPBOX_TOKEN,
@@ -228,14 +223,15 @@ export const CYCLING_COLOR = 'rgb(51,255,87)';
 export const HIKING_COLOR = 'rgb(151,51,255)';
 export const WALKING_COLOR = HIKING_COLOR;
 export const SWIMMING_COLOR = 'rgb(255,51,51)';
+export const INDOOR_COLOR = '#8899aa';
 
 // map tiles vendor, maptiler or mapbox or stadiamaps
 // if you want to use maptiler, set the access token in MAP_TILE_ACCESS_TOKEN
 export const MAP_TILE_VENDOR = 'maptiler';
 
 // map tiles style name, see MAP_TILE_STYLES for more details
-export const MAP_TILE_STYLE_LIGHT = 'dataviz-light';
-export const MAP_TILE_STYLE_DARK = 'backdrop-dark';
+export const MAP_TILE_STYLE_LIGHT = 'dataviz-blueLine';
+export const MAP_TILE_STYLE_DARK = 'backdrop-dark-3D';
 
 // access token. you can apply a new one, it's free.
 // maptiler: Gt5R0jT8tuIYxW6sNrAg | sign up at https://cloud.maptiler.com/auth/widget
@@ -264,6 +260,12 @@ export const MAP_TILE_STYLES = {
   },
   maptiler: {
     'dataviz-light': 'https://api.maptiler.com/maps/dataviz-v4/style.json?key=',
+    'dataviz-blueLine':
+      'https://api.maptiler.com/maps/019cc1f2-1c5f-7025-8b79-6cc663ffb443/style.json?key=',
+    'backdrop-3D':
+      'https://api.maptiler.com/maps/019cc21a-109c-7408-8d4e-31d8d06dc326/style.json?key=',
+    'backdrop-dark-3D':
+      'https://api.maptiler.com/maps/019cc225-be32-73a2-aa30-9664841e1c8a/style.json?key=',
     'dataviz-dark':
       'https://api.maptiler.com/maps/dataviz-dark/style.json?key=',
     'basic-light': 'https://api.maptiler.com/maps/basic-v2/style.json?key=',
@@ -312,6 +314,13 @@ export const MAP_TILE_STYLES = {
   default: 'mapbox://styles/mapbox/dark-v10',
 };
 
+export const getMapTileVendorStyles = (
+  vendor: string
+): Record<string, string> | undefined => {
+  const styles = MAP_TILE_STYLES[vendor as keyof typeof MAP_TILE_STYLES];
+  return typeof styles === 'object' ? styles : undefined;
+};
+
 // Configuration validation
 if (typeof window !== 'undefined') {
   // Validate token requirements
@@ -336,7 +345,7 @@ if (typeof window !== 'undefined') {
   }
 
   // Validate style matches vendor
-  const vendorStyles = (MAP_TILE_STYLES as any)[MAP_TILE_VENDOR];
+  const vendorStyles = getMapTileVendorStyles(MAP_TILE_VENDOR);
   if (vendorStyles && !vendorStyles[MAP_TILE_STYLE_LIGHT]) {
     console.error(
       `❌ Style "${MAP_TILE_STYLE_LIGHT}" is not valid for vendor "${MAP_TILE_VENDOR}"\n` +
