@@ -12,7 +12,7 @@ yarn-error.log
 .sass-cache/
 _posts/
 _site/
-
+FIT_OUT
 .mypy_cache
 
 /.vscode
