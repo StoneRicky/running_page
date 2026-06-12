@@ -12,8 +12,9 @@ if (!(Test-Path "assets")) {
 
 Write-Host "--- Start Data Syncing ---" -ForegroundColor Cyan
 
-# 请替换下面的凭据
-python run_page/coros_sync.py username password
+# 请替换下面的凭据为实际的用户名和密码
+# 执行前删除 imported.json\data.db\activities.json
+python run_page/coros_sync.py 18653000555 qwer1234
 python run_page/db_updater.py
 
 Write-Host "--- Generating All Years SVGs ---" -ForegroundColor Cyan
