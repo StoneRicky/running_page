@@ -16,7 +16,7 @@ const Stat = ({
   onClick,
 }: IStatProperties) => (
   <div className={`${className}`} onClick={onClick}>
-    <span className={`text-${citySize || 5}xl font-bold `}>
+    <span className={`text-${citySize || 5}xl font-bold`}>
       {intComma(value.toString())}
     </span>
     <span className="text-lg font-semibold">{description}</span>
