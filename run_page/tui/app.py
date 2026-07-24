@@ -137,9 +137,7 @@ def _render_bar_chart(
 
     for label, value in zip(labels, values):
         filled = (
-            0
-            if max_value <= 0
-            else round(float(value) / float(max_value) * bar_width)
+            0 if max_value <= 0 else round(float(value) / float(max_value) * bar_width)
         )
         if value > 0:
             filled = max(1, filled)

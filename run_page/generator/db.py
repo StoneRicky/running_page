@@ -192,9 +192,7 @@ def update_or_create_activity(session, run_activity):
                     location_country = str(location_res)
                 # limit (only for the first time)
                 except Exception as e:
-                    print(
-                        f"DEBUG: OSM Request failed for ID {run_activity.id}: {e!s}"
-                    )
+                    print(f"DEBUG: OSM Request failed for ID {run_activity.id}: {e!s}")
                     try:
                         location_country = str(
                             g.reverse(

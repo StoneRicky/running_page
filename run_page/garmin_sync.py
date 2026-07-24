@@ -333,9 +333,7 @@ def get_garmin_summary_infos(activity_summary, activity_id):
         garmin_summary_infos["distance"] = summary_dto.get("distance")
         garmin_summary_infos["average_hr"] = summary_dto.get("averageHR")
         garmin_summary_infos["average_speed"] = summary_dto.get("averageSpeed")
-        start_time = dt.datetime.fromisoformat(
-            summary_dto.get("startTimeGMT")
-        )
+        start_time = dt.datetime.fromisoformat(summary_dto.get("startTimeGMT"))
         duration_second = summary_dto.get("duration")
         end_time = start_time + dt.timedelta(seconds=duration_second)
         garmin_summary_infos["start_time"] = start_time.isoformat()
