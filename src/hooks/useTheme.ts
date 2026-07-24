@@ -1,5 +1,8 @@
 import { useState, useEffect, useCallback, useSyncExternalStore } from 'react';
-import { MAP_TILE_STYLE_LIGHT, MAP_TILE_STYLE_DARK } from '@/themes/classic/utils/const';
+import {
+  MAP_TILE_STYLE_LIGHT,
+  MAP_TILE_STYLE_DARK,
+} from '@/themes/classic/utils/const';
 
 export type Theme = 'light' | 'dark';
 
