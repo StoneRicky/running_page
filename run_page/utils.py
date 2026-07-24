@@ -6,7 +6,7 @@ import pytz
 
 try:
     from rich import print
-except Exception:
+except Exception:  # noqa: BLE001
     pass
 from generator import Generator
 from stravalib.client import Client
@@ -92,8 +92,8 @@ def get_strava_last_time(client, is_milliseconds=True):
         if is_milliseconds:
             last_time = last_time * 1000
         return last_time
-    except Exception as e:
-        print(f"Something wrong to get last time err: {str(e)}")
+    except Exception as e:  # noqa: BLE001
+        print(f"Something wrong to get last time err: {e!s}")
         return 0
 
 

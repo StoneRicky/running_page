@@ -190,12 +190,12 @@ def get_new_activities(token, old_tracks_ids, with_gpx=False):
             tracks.append(track)
             if with_gpx and activity_summary["id"] not in old_gpx_ids:
                 save_activity_gpx(activity_summary, activity_detail, track)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             # print traceback.format_exc()
             import traceback
 
             traceback.print_exc()
-            print(f"Something wrong parsing tulipsport id {activity_id} " + str(e))
+            print(f"Something wrong parsing tulipsport id {activity_id} {e!s}")
     return tracks
 
 
@@ -249,9 +249,8 @@ def save_activity_gpx(summary, detail, track):
         file_path = os.path.join(GPX_FOLDER, str(activity_id) + ".gpx")
         with open(file_path, "w") as fb:
             fb.write(gpx.to_xml())
-    except Exception as e:
-        print(f"saving tulipsport activity {activity_id} gpx occurs errors: {str(e)}")
-        pass
+    except Exception as e:  # noqa: BLE001
+        print(f"saving tulipsport activity {activity_id} gpx occurs errors: {e!s}")
 
 
 # 郁金香运动的活动 ID 采用 UUID 模式，而 DB 主键使用 long 类型，无法有效存储，所以采用构造个人唯一的活动 ID

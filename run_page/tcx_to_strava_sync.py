@@ -69,7 +69,7 @@ if __name__ == "__main__":
             upload_file_to_strava(client, tcx_file, "tcx")
 
         except ActivityUploadFailed as e:
-            print(f"Upload failed error {str(e)}")
+            print(f"Upload failed error {e!s}")
         # spider rule
         time.sleep(1)
 

@@ -17,8 +17,7 @@ def load_synced_file_list():
         with open(SYNCED_FILE, "r") as f:
             try:
                 return json.load(f)
-            except Exception as e:
-                print(f"json load {SYNCED_FILE} \nerror {e}")
-                pass
+            except (json.JSONDecodeError, OSError) as e:
+                print(f"json load {SYNCED_FILE} \nerror {e!s}")
 
     return []

@@ -1,6 +1,6 @@
 import argparse
 import asyncio
-from datetime import datetime
+from datetime import datetime, timezone
 
 from garmin_sync import Garmin
 from strava_sync import run_strava_sync
@@ -18,7 +18,7 @@ async def upload_to_activities(
     else:
         # is this startTimeGMT must have ?
         after_datetime_str = last_activity[0]["startTimeGMT"]
-        after_datetime = datetime.strptime(after_datetime_str, "%Y-%m-%d %H:%M:%S")
+        after_datetime = datetime.strptime(after_datetime_str, "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc)
         print("garmin last activity date: ", after_datetime)
         filters = {"after": after_datetime}
     strava_activities = list(strava_client.get_activities(**filters))
@@ -33,8 +33,8 @@ async def upload_to_activities(
         try:
             data = strava_web_client.get_activity_data(i.id, fmt=format)
             files_list.append(data)
-        except Exception as ex:
-            print("get strava data error: ", ex)
+        except Exception as ex:  # noqa: BLE001
+            print(f"get strava data error: {ex!s}")
     await garmin_client.upload_activities_original_from_strava(
         files_list, use_fake_garmin_device
     )
@@ -97,8 +97,8 @@ if __name__ == "__main__":
             )
         )
         loop.run_until_complete(future)
-    except Exception as err:
-        print(err)
+    except Exception as err:  # noqa: BLE001
+        print(f"unexpected error: {err!s}")
 
     # Run the strava sync
     run_strava_sync(
