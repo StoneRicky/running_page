@@ -11,7 +11,6 @@ from datetime import datetime, timedelta
 import polyline
 from config import BASE_TIMEZONE, ENDOMONDO_FILE_DIR, JSON_FILE, SQL_FILE
 from generator import Generator
-
 from utils import adjust_time
 
 # TODO Same as keep_sync maybe refactor
@@ -23,7 +22,7 @@ def _make_heart_rate(en_dict):
     """
     #TODO
     """
-    return None
+    return
 
 
 def _make_endomondo_id(file_name):
@@ -83,7 +82,7 @@ def parse_one_endomondo_json(json_file_name):
     endomondo_id = _make_endomondo_id(json_file_name)
     print(endomondo_id)
     if not endomondo_id:
-        raise Exception("No endomondo id generated in {}".format(json_file_name))
+        raise Exception(f"No endomondo id generated in {json_file_name}")
     d["id"] = endomondo_id
     # endomondo list -> dict
     for c in content:
@@ -102,7 +101,7 @@ def run_enomondo_sync():
     old_tracks_ids = generator.get_old_tracks_ids()
     json_files_list = get_all_en_endomondo_json_file()
     if not json_files_list:
-        raise Exception("No json files found in {}".format(ENDOMONDO_FILE_DIR))
+        raise Exception(f"No json files found in {ENDOMONDO_FILE_DIR}")
     tracks = []
     for i in json_files_list:
         if _make_endomondo_id(i) in old_tracks_ids:

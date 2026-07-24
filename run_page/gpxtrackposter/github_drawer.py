@@ -1,7 +1,7 @@
+import argparse
 import calendar
 import datetime
 import locale
-import argparse
 
 import svgwrite
 

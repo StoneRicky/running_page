@@ -4,12 +4,13 @@ import os
 from collections import namedtuple
 from datetime import datetime, timedelta, timezone
 from urllib.parse import quote
+from xml.etree import ElementTree
+
 import gpxpy
 import polyline
 import requests
 from config import GPX_FOLDER, JSON_FILE, SQL_FILE, run_map, start_point
 from generator import Generator
-from xml.etree import ElementTree
 from utils import adjust_time_to_utc
 
 # need to test
@@ -245,7 +246,7 @@ def save_activity_gpx(summary, detail, track):
 
     activity_id = summary["id"]
     try:
-        print(f"saving tulipsport activity {str(activity_id)} gpx")
+        print(f"saving tulipsport activity {activity_id!s} gpx")
         file_path = os.path.join(GPX_FOLDER, str(activity_id) + ".gpx")
         with open(file_path, "w") as fb:
             fb.write(gpx.to_xml())

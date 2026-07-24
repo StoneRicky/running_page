@@ -3,7 +3,7 @@ import random
 import string
 import time
 
-from geopy.geocoders import options, Nominatim
+from geopy.geocoders import Nominatim, options
 from sqlalchemy import (
     Column,
     Float,
@@ -193,7 +193,7 @@ def update_or_create_activity(session, run_activity):
                 # limit (only for the first time)
                 except Exception as e:
                     print(
-                        f"DEBUG: OSM Request failed for ID {run_activity.id}: {str(e)}"
+                        f"DEBUG: OSM Request failed for ID {run_activity.id}: {e!s}"
                     )
                     try:
                         location_country = str(

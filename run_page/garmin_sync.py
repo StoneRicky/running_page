@@ -15,13 +15,13 @@ import time
 import traceback
 import zipfile
 from io import BytesIO
-from lxml import etree
 
 import aiofiles
 import garth
 import httpx
 from config import FOLDER_DICT, JSON_FILE, SQL_FILE
 from garmin_device_adaptor import process_garmin_data
+from lxml import etree
 from utils import make_activities_file
 
 # logging.basicConfig(level=logging.DEBUG)
@@ -90,14 +90,12 @@ class Garmin:
             print(err)
             if retrying:
                 logger.debug(
-                    "Exception occurred during data retrieval, relogin without effect: %s"
-                    % err
+                    f"Exception occurred during data retrieval, relogin without effect: {err}"
                 )
                 raise GarminConnectConnectionError("Error connecting") from err
             else:
                 logger.debug(
-                    "Exception occurred during data retrieval - perhaps session expired - trying relogin: %s"
-                    % err
+                    f"Exception occurred during data retrieval - perhaps session expired - trying relogin: {err}"
                 )
                 await self.fetch_data(url, retrying=True)
 
@@ -135,8 +133,7 @@ class Garmin:
         )
         for data in datas:
             with open(data.filename, "wb") as f:
-                for chunk in data.content:
-                    f.write(chunk)
+                f.writelines(data.content)
             f = open(data.filename, "rb")
             file_body = process_garmin_data(f, use_fake_garmin_device)
             files = {"file": (data.filename, file_body)}
@@ -193,7 +190,7 @@ class Garmin:
 
 class GarminConnectHttpError(Exception):
     def __init__(self, status):
-        super(GarminConnectHttpError, self).__init__(status)
+        super().__init__(status)
         self.status = status
 
 
@@ -202,7 +199,7 @@ class GarminConnectConnectionError(Exception):
 
     def __init__(self, status):
         """Initialize."""
-        super(GarminConnectConnectionError, self).__init__(status)
+        super().__init__(status)
         self.status = status
 
 
@@ -211,7 +208,7 @@ class GarminConnectTooManyRequestsError(Exception):
 
     def __init__(self, status):
         """Initialize."""
-        super(GarminConnectTooManyRequestsError, self).__init__(status)
+        super().__init__(status)
         self.status = status
 
 
@@ -220,7 +217,7 @@ class GarminConnectAuthenticationError(Exception):
 
     def __init__(self, status):
         """Initialize."""
-        super(GarminConnectAuthenticationError, self).__init__(status)
+        super().__init__(status)
         self.status = status
 
 
@@ -262,9 +259,9 @@ def add_summary_info(file_data, summary_infos, fields=None):
         root.insert(0, extensions_node)
         return etree.tostring(root, encoding="utf-8", pretty_print=True)
     except etree.XMLSyntaxError as e:
-        print(f"Failed to parse file data: {str(e)}")
+        print(f"Failed to parse file data: {e!s}")
     except Exception as e:
-        print(f"Failed to append summary info to file data: {str(e)}")
+        print(f"Failed to append summary info to file data: {e!s}")
     return file_data
 
 
@@ -301,14 +298,14 @@ async def download_garmin_data(
                     os.remove(os.path.join(folder, file_info.filename))
             os.remove(file_path)
     except Exception as e:
-        print(f"Failed to download activity {activity_id}: {str(e)}")
+        print(f"Failed to download activity {activity_id}: {e!s}")
         traceback.print_exc()
 
 
 async def get_activity_id_list(client, start=0):
     activities = await client.get_activities(start, 100)
     if len(activities) > 0:
-        ids = list(map(lambda a: str(a.get("activityId", "")), activities))
+        ids = [str(a.get("activityId", "")) for a in activities]
         print("Syncing Activity IDs")
         return ids + await get_activity_id_list(client, start + 100)
     else:
@@ -337,7 +334,7 @@ def get_garmin_summary_infos(activity_summary, activity_id):
         garmin_summary_infos["average_hr"] = summary_dto.get("averageHR")
         garmin_summary_infos["average_speed"] = summary_dto.get("averageSpeed")
         start_time = dt.datetime.fromisoformat(
-            summary_dto.get("startTimeGMT")[:-1] + "+00:00"
+            summary_dto.get("startTimeGMT")
         )
         duration_second = summary_dto.get("duration")
         end_time = start_time + dt.timedelta(seconds=duration_second)
@@ -346,7 +343,7 @@ def get_garmin_summary_infos(activity_summary, activity_id):
         garmin_summary_infos["moving_time"] = summary_dto.get("movingDuration")
         garmin_summary_infos["elapsed_time"] = summary_dto.get("elapsedDuration")
     except Exception as e:
-        print(f"Failed to get activity summary {activity_id}: {str(e)}")
+        print(f"Failed to get activity summary {activity_id}: {e!s}")
     return garmin_summary_infos
 
 
@@ -371,7 +368,7 @@ async def download_new_activities(
                 activity_summary, id
             )
         except Exception as e:
-            print(f"Failed to get activity summary {id}: {str(e)}")
+            print(f"Failed to get activity summary {id}: {e!s}")
             continue
 
     start_time = time.time()

@@ -68,7 +68,6 @@ class Poster:
             except locale.Error as e:
                 print(f'Cannot set locale to "{language}": {e}')
                 language = None
-                pass
 
         # Fall-back to NullTranslations, if the specified language translation cannot be found.
         if language:
@@ -119,7 +118,7 @@ class Poster:
         if self.drawer_type == "year_summary":
             # Year summary drawer handles its own layout
             self.__draw_tracks(d, XY(width - 10, height - 10), XY(5, 5))
-        elif not self.drawer_type == "plain":
+        elif self.drawer_type != "plain":
             self.__draw_header(d)
             self.__draw_footer(d)
             self.__draw_tracks(d, XY(width - 20, height - 30 - 30), XY(10, 30))

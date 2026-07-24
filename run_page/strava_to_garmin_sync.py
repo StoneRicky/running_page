@@ -1,6 +1,6 @@
 import argparse
 import asyncio
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from garmin_sync import Garmin
 from strava_sync import run_strava_sync
@@ -20,7 +20,7 @@ async def upload_to_activities(
         after_datetime_str = last_activity[0]["startTimeGMT"]
         after_datetime = datetime.strptime(
             after_datetime_str, "%Y-%m-%d %H:%M:%S"
-        ).replace(tzinfo=timezone.utc)
+        ).replace(tzinfo=UTC)
         print("garmin last activity date: ", after_datetime)
         filters = {"after": after_datetime}
     strava_activities = list(strava_client.get_activities(**filters))

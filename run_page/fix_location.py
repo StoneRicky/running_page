@@ -12,11 +12,12 @@ Fixes issue #773: add a fix script to fix the location problem
 
 import argparse
 import sys
-from geopy.geocoders import Nominatim
-from geopy.exc import GeocoderTimedOut, GeocoderServiceError
 import time
+
 import polyline
 from generator.db import Activity, init_db
+from geopy.exc import GeocoderServiceError, GeocoderTimedOut
+from geopy.geocoders import Nominatim
 
 # Initialize geocoder
 geocoder = Nominatim(user_agent="running_page_location_fix")

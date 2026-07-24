@@ -8,9 +8,9 @@ from gpxtrackposter import (
     circular_drawer,
     github_drawer,
     grid_drawer,
+    month_of_life_drawer,
     poster,
     track_loader,
-    month_of_life_drawer,
     year_summary_drawer,
 )
 from gpxtrackposter.exceptions import ParameterError, PosterError
@@ -210,12 +210,12 @@ def main():
         help="Generate separate SVG files for each year (for github type only)",
     )
 
-    for _, drawer in drawers.items():
+    for drawer in drawers.values():
         drawer.create_args(args_parser)
 
     args = args_parser.parse_args()
 
-    for _, drawer in drawers.items():
+    for drawer in drawers.values():
         drawer.fetch_args(args)
 
     log = logging.getLogger("gpxtrackposter")
@@ -305,7 +305,7 @@ def main():
             p.years.from_year, p.years.to_year = y, y
             # may be refactor
             p.set_tracks(tracks)
-            p.draw(drawers[args.type], os.path.join(output_dir, f"year_{str(y)}.svg"))
+            p.draw(drawers[args.type], os.path.join(output_dir, f"year_{y!s}.svg"))
     elif is_year_summary and args.summary_year is None:
         # Generate year summary for all years when --summary-year is not specified
         years = p.years.all()[:]
@@ -314,7 +314,7 @@ def main():
             drawers[args.type].year = y
             p.draw(
                 drawers[args.type],
-                os.path.join(output_dir, f"year_summary_{str(y)}.svg"),
+                os.path.join(output_dir, f"year_summary_{y!s}.svg"),
             )
     elif is_github and args.year == "all" and args.generate_all_years:
         # Generate GitHub heat map for all years when --generate-all-years flag is set
@@ -339,7 +339,7 @@ def main():
 
             p.draw(
                 drawers[args.type],
-                os.path.join(output_dir, f"github_{str(y)}.svg"),
+                os.path.join(output_dir, f"github_{y!s}.svg"),
             )
             # 恢复原始标题
             p.title = original_title
