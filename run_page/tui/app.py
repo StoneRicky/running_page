@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import ClassVar
 
 from rich.console import Group as RichGroup
 from rich.panel import Panel
@@ -547,7 +548,7 @@ class NavSidebar(Widget):
             super().__init__()
             self.view_name = view_name
 
-    ITEMS = [
+    ITEMS: ClassVar = [
         ("list", "1  List"),
         ("stats", "2  Stats"),
     ]
@@ -887,7 +888,7 @@ class RunningTUI(App):
     #stats-body { height: auto; }
     """
 
-    BINDINGS = [
+    BINDINGS: ClassVar = [
         Binding("q", "quit", "Quit"),
         Binding("r", "refresh", "Refresh"),
         Binding("s", "toggle_sort", "Sort"),

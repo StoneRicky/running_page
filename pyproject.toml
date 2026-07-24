@@ -60,3 +60,15 @@ packages = ["run_page"]
 dev = [
     "pytest>=9.0.3",
 ]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F"]
+ignore = ["E501"]
+
+
+
+
+

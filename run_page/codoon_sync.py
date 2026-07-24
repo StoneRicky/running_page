@@ -320,10 +320,10 @@ def tcx_job(run_data):
                 continue
 
             # get heart rate at unix_time
-            hr = fit_hrs.get(unix_time, None)
+            hr = fit_hrs.get(unix_time)
 
             # get steps per minute at unix_time
-            step = fit_steps.get(unix_time, None)
+            step = fit_steps.get(unix_time)
 
             fit_list.append((unix_time, hr, step, latitude, longitude, elevation))
     elif fit_hrs:
@@ -333,7 +333,7 @@ def tcx_job(run_data):
         )
         for unix_time, hr in fit_hrs.items():
             # get heart rate at unix_time
-            step = fit_steps.get(unix_time, None)
+            step = fit_steps.get(unix_time)
             fit_list.append((unix_time, hr, step, None, None, None))
     elif fit_steps:
         # not trackpoints but steps
