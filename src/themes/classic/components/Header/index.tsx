@@ -69,15 +69,25 @@ const Header = () => {
           </Link>
         </div>
         <div className="flex w-3/4 items-center justify-end text-right">
-          {navLinks.map((n) => (
-            <a
-              key={n.url}
-              href={n.url}
-              className="mr-3 text-lg lg:mr-4 lg:text-base"
-            >
-              {n.name}
-            </a>
-          ))}
+          {navLinks.map((n) =>
+            n.url.startsWith('http') ? (
+              <a
+                key={n.url}
+                href={n.url}
+                className="mr-3 text-lg lg:mr-4 lg:text-base"
+              >
+                {n.name}
+              </a>
+            ) : (
+              <Link
+                key={n.url}
+                to={n.url}
+                className="mr-3 text-lg lg:mr-4 lg:text-base"
+              >
+                {n.name}
+              </Link>
+            )
+          )}
           <div className="ml-4 flex items-center space-x-2">
             <button
               type="button"
