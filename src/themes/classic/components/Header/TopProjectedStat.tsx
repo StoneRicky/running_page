@@ -50,27 +50,24 @@ export default function TopProjectedStat() {
   const formatted = formatNumberWithCommas(projectedValue);
 
   return (
-    <div className="inline-flex w-fit flex-col gap-1.5 rounded-2xl border border-[var(--color-hr)] bg-white/40 px-5 py-3.5 shadow-sm backdrop-blur-md transition-all duration-300 select-none hover:border-[var(--color-tx)]/40 hover:shadow-md dark:bg-black/25">
-      {/* Row 1: Left label "Projected", Right pulsing live green dot */}
-      <div className="flex items-center justify-between gap-4">
-        <span className="text-xs font-semibold tracking-wider uppercase opacity-75">
-          Projected
-        </span>
-        <span className="relative flex h-2.5 w-2.5">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-sm" />
-        </span>
-      </div>
-
-      {/* Row 2: Left numerical value, Right KM unit */}
-      <div className="flex items-baseline justify-between gap-3">
-        <span className="font-mono text-2xl leading-none font-extrabold tracking-tight tabular-nums sm:text-3xl lg:text-4xl">
-          {formatted}
-        </span>
-        <span className="text-xs font-bold uppercase opacity-80 sm:text-sm">
-          {DIST_UNIT}
-        </span>
-      </div>
+    <div className="inline-flex h-10 items-center gap-2 rounded-full border border-[var(--color-hr)] bg-white/40 px-4 shadow-sm backdrop-blur-md transition-all duration-300 select-none hover:border-[var(--color-tx)]/40 hover:shadow-md dark:bg-black/25">
+      {/* 1. 数字 */}
+      <span className="font-mono text-base font-extrabold tracking-tight tabular-nums sm:text-lg">
+        {formatted}
+      </span>
+      {/* 2. KM */}
+      <span className="text-xs font-bold uppercase opacity-85">
+        {DIST_UNIT}
+      </span>
+      {/* 3. PROJECTED */}
+      <span className="text-xs font-semibold tracking-wider uppercase opacity-75">
+        Projected
+      </span>
+      {/* 4. 绿点 */}
+      <span className="relative ml-0.5 flex h-2.5 w-2.5">
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-sm" />
+      </span>
     </div>
   );
 }
