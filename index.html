@@ -4,11 +4,12 @@
     <meta charset="UTF-8" />
     <script>
       (function () {
-        const basePath = '%BASE_URL%';
+        const basePath = '%BASE_URL%'.replace(/\/+$/, '');
         const redirect = sessionStorage.getItem('redirect');
         if (redirect) {
           sessionStorage.removeItem('redirect');
           if (
+            redirect !== basePath &&
             redirect !== basePath + '/' &&
             redirect !== basePath + '/index.html'
           ) {
