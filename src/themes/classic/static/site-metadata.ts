@@ -9,11 +9,6 @@ interface ISiteMetadataResult {
   }[];
 }
 
-const getBasePath = () => {
-  const baseUrl = import.meta.env.BASE_URL;
-  return baseUrl === '/' ? '' : baseUrl;
-};
-
 const data: ISiteMetadataResult = {
   siteTitle: 'Running Page',
   siteUrl: 'https://yihong.run',
@@ -22,7 +17,7 @@ const data: ISiteMetadataResult = {
   navLinks: [
     {
       name: 'Summary',
-      url: `${getBasePath()}/summary`,
+      url: '/summary',
     },
     {
       name: 'Blog',

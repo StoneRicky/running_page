@@ -62,7 +62,7 @@ const Header = () => {
     <>
       <nav className="mx-auto flex w-full min-w-max items-center justify-between pt-12 pl-6 lg:px-16">
         <div className="w-1/4">
-          <Link to={siteUrl}>
+          <Link to="/">
             <picture>
               <img className="h-16 w-16 rounded-full" alt="logo" src={logo} />
             </picture>
