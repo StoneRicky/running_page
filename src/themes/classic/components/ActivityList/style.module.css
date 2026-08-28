@@ -1,6 +1,6 @@
 .activityList {
   padding: 20px 20px 0 20px;
-  background-color: var(--color-background);
+  background-color: transparent;
   color: var(--color-primary);
 }
 
@@ -22,62 +22,72 @@
 
 :global(.rc-virtual-list-scrollbar-thumb:hover) {
   background: var(--color-scrollbar-thumb-hover) !important;
+  border-radius: 4px;
 }
 
 .filterContainer {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 12px;
+  margin-bottom: 24px;
   overflow: visible;
 }
 
 .filterContainer select {
   appearance: none;
-  width: 90px;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid var(--color-run-table-thead);
-  background-color: var(--color-run-row-hover-background);
+  width: 110px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--color-hr);
+  background-color: var(--color-background);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: var(--color-run-table-thead);
   cursor: pointer;
   text-align: center;
   text-transform: capitalize;
   box-sizing: border-box;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.filterContainer select:hover {
+  border-color: var(--color-primary);
 }
 
 .summaryContainer {
-  /* display: grid;
-  justify-content: center;
-  grid-template-columns: repeat(auto-fit, minmax(280px, auto));
-  gap: 20px; */
-  /* position: relative; */
   width: 100%;
   height: 100%;
-  /* overflow: auto;
-  will-change: transform; */
 }
 
 .activityCard {
-  background-color: var(--color-run-row-hover-background);
-  border: 1px solid var(--color-activity-card);
-  border-radius: 8px;
-  padding: 16px;
+  background-color: var(--color-background);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--color-hr);
+  border-radius: 16px;
+  padding: 0;
   width: 280px;
-  box-shadow: 0 4px 8px var(--color-run-row-hover-background);
-  transition: transform 0.2s;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
   position: relative;
+  overflow: hidden;
 }
 
 .activityCard:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+  border-color: var(--color-primary);
 }
 
 /* Flip card styles */
 .activityCardFlippable {
   perspective: 1000px;
   padding: 0;
-  /* Remove padding for flippable cards */
 }
 
 .cardInner {
@@ -95,10 +105,10 @@
 .cardBack {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  border-radius: 8px;
-  padding: 16px;
+  border-radius: 16px;
+  padding: 18px;
   box-sizing: border-box;
-  background-color: var(--color-run-row-hover-background);
+  background-color: transparent;
 }
 
 .cardBack {
@@ -127,8 +137,9 @@
 
 .activityName {
   font-size: 1.5em;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   color: var(--color-primary);
+  font-weight: 700;
 }
 
 .activityDetails p {
@@ -143,22 +154,27 @@
 .chart {
   height: 250px;
   width: 100%;
-  background-color: var(--color-activity-card);
+  background-color: rgba(128, 128, 128, 0.04);
+  border: 1px solid rgba(128, 128, 128, 0.12);
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 14px;
+  padding: 4px;
 }
 
 .smallHomeButton {
   width: 90px;
-  padding: 4px 12px;
+  padding: 6px 14px;
   background-color: var(--color-primary);
   color: var(--color-background);
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   margin-right: 20px;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
 }
 
 .smallHomeButton:hover {
@@ -183,23 +199,28 @@
 
 .yearButton {
   padding: 8px 16px;
-  background-color: transparent;
+  background-color: var(--color-background);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: var(--color-primary);
-  border: 1px solid var(--color-primary);
-  border-radius: 5px;
+  border: 1px solid var(--color-hr);
+  border-radius: 12px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 600;
   transition: all 0.2s;
 }
 
 .yearButton:hover {
   background-color: var(--color-primary);
   color: var(--color-background);
+  border-color: var(--color-primary);
 }
 
 .yearButtonActive {
   background-color: var(--color-primary);
   color: var(--color-background);
+  border-color: var(--color-primary);
 }
 
 .yearSummarySvg {

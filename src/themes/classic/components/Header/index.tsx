@@ -6,7 +6,7 @@ import { useTheme, Theme } from '../../hooks/useTheme';
 import styles from './style.module.css';
 
 const Header = () => {
-  const { logo, siteUrl, navLinks } = getSiteMetadata();
+  const { logo, navLinks } = getSiteMetadata();
   const { theme, setTheme } = useTheme();
 
   const savedTheme = localStorage.getItem('theme');
@@ -18,8 +18,8 @@ const Header = () => {
   const icons: Record<Theme, ReactElement> = {
     dark: (
       <svg
-        width="22"
-        height="23"
+        width="20"
+        height="20"
         viewBox="0 0 22 23"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -35,8 +35,8 @@ const Header = () => {
     ),
     light: (
       <svg
-        width="24"
-        height="24"
+        width="20"
+        height="20"
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -60,45 +60,49 @@ const Header = () => {
 
   return (
     <>
-      <nav className="mx-auto flex w-full min-w-max items-center justify-between pt-12 pl-6 lg:px-16">
-        <div className="w-1/4">
-          <Link to="/">
+      <nav className="mx-auto flex w-full items-center justify-between pt-10 pl-6 lg:px-16">
+        <div>
+          <Link to="/" className="shrink-0">
             <picture>
-              <img className="h-16 w-16 rounded-full" alt="logo" src={logo} />
+              <img
+                className="h-16 w-16 rounded-full shadow-sm transition-transform hover:scale-105"
+                alt="logo"
+                src={logo}
+              />
             </picture>
           </Link>
         </div>
-        <div className="flex w-3/4 items-center justify-end text-right">
-          {navLinks.map((n) =>
-            n.url.startsWith('http') ? (
-              <a
-                key={n.url}
-                href={n.url}
-                className="mr-3 text-lg lg:mr-4 lg:text-base"
-              >
-                {n.name}
-              </a>
-            ) : (
-              <Link
-                key={n.url}
-                to={n.url}
-                className="mr-3 text-lg lg:mr-4 lg:text-base"
-              >
-                {n.name}
-              </Link>
-            )
-          )}
-          <div className="ml-4 flex items-center space-x-2">
-            <button
-              type="button"
-              onClick={handleToggle}
-              className={`${styles.themeButton} ${styles.themeButtonActive}`}
-              aria-label={`Switch to ${nextTheme} theme`}
-              title={`Switch to ${nextTheme} theme`}
-            >
-              <div className={styles.iconWrapper}>{icons[theme]}</div>
-            </button>
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 items-center gap-1 rounded-full border border-[var(--color-hr)] bg-white/40 px-3.5 shadow-sm backdrop-blur-md dark:bg-black/25">
+            {navLinks.map((n) =>
+              n.url.startsWith('http') ? (
+                <a
+                  key={n.url}
+                  href={n.url}
+                  className="rounded-full px-2.5 py-1 text-sm font-semibold opacity-85 transition-all hover:bg-white/20 hover:opacity-100 dark:hover:bg-white/10"
+                >
+                  {n.name}
+                </a>
+              ) : (
+                <Link
+                  key={n.url}
+                  to={n.url}
+                  className="rounded-full px-2.5 py-1 text-sm font-semibold opacity-85 transition-all hover:bg-white/20 hover:opacity-100 dark:hover:bg-white/10"
+                >
+                  {n.name}
+                </Link>
+              )
+            )}
           </div>
+          <button
+            type="button"
+            onClick={handleToggle}
+            className={`${styles.themeButton} ${styles.themeButtonActive}`}
+            aria-label={`Switch to ${nextTheme} theme`}
+            title={`Switch to ${nextTheme} theme`}
+          >
+            <div className={styles.iconWrapper}>{icons[theme]}</div>
+          </button>
         </div>
       </nav>
     </>

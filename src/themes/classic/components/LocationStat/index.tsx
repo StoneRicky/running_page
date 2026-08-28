@@ -1,4 +1,5 @@
 import YearStat from '../YearStat';
+import TopProjectedStat from '../Header/TopProjectedStat';
 import {
   CHINESE_LOCATION_INFO_MESSAGE_FIRST,
   CHINESE_LOCATION_INFO_MESSAGE_SECOND,
@@ -19,7 +20,10 @@ const LocationStat = ({
   changeTitle,
 }: ILocationStatProps) => (
   <div className="w-full pb-16 lg:w-full lg:pr-16">
-    <section className="pb-0">
+    <div className="mb-6">
+      <TopProjectedStat />
+    </div>
+    <section className="pb-6">
       <p className="leading-relaxed">
         {CHINESE_LOCATION_INFO_MESSAGE_FIRST}
         .
@@ -31,7 +35,6 @@ const LocationStat = ({
         Yesterday you said tomorrow.
       </p>
     </section>
-    <hr />
     <LocationSummary />
     <CitiesStat onClick={changeCity} />
     <PeriodStat onClick={changeTitle} />

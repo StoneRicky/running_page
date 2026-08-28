@@ -11,7 +11,7 @@
 
   .runTable th,
   .runTable td {
-    padding: 0.25rem !important;
+    padding: 0.35rem 0.25rem !important;
     white-space: nowrap;
     min-width: 60px;
   }
@@ -27,22 +27,39 @@
   }
 }
 
-.runTable {
-  border-radius: 8px;
+.tableContainer {
   width: 100%;
+  overflow-x: auto;
   margin: 2rem 0 5rem 0;
-  color: var(--color-run-table-thead);
+  border-radius: 16px;
+  border: 1px solid var(--color-hr);
   background-color: var(--color-background);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+}
+
+.runTable {
+  width: 100%;
+  margin: 0;
+  color: var(--color-run-table-thead);
+  background-color: transparent;
   font-family: var(--font-sans);
   table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0;
 
   :is(thead) {
     color: var(--color-run-table-thead);
+    border-bottom: 1px solid var(--color-hr);
+    background-color: rgba(128, 128, 128, 0.08);
 
     :is(th) {
-      padding: 0.5rem;
+      padding: 0.75rem 0.5rem;
       white-space: nowrap;
       text-align: center;
+      font-weight: 700;
+      border-bottom: 1px solid var(--color-hr);
     }
 
     .sortableHeader {
@@ -57,10 +74,12 @@
 
     :is(th):first-child {
       text-align: left;
+      padding-left: 1.25rem;
     }
 
     :is(th):last-child {
       text-align: right;
+      padding-right: 1.25rem;
     }
   }
 
@@ -80,20 +99,26 @@
 
 .runRow {
   cursor: pointer;
+  transition: background-color 0.15s ease;
 
   :is(td) {
-    padding: 0.5rem;
-    border: 0;
+    padding: 0.65rem 0.5rem;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.08);
     text-align: center;
-    /* 默认居中 */
   }
 
   :is(td):first-child {
     text-align: left;
+    padding-left: 1.25rem;
   }
 
   :is(td):last-child {
     text-align: right;
+    padding-right: 1.25rem;
+  }
+
+  &:last-child :is(td) {
+    border-bottom: 0;
   }
 
   &:hover {
@@ -103,11 +128,8 @@
 
 .selected {
   color: var(--color-primary);
-}
-
-.tableContainer {
-  width: 100%;
-  overflow-x: auto;
+  font-weight: 700;
+  background-color: rgba(128, 128, 128, 0.1);
 }
 
 .runDate {

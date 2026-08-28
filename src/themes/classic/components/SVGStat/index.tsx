@@ -5,7 +5,6 @@ import { initSvgColorAdjustments } from '../../utils/colorUtils';
 
 // Lazy load both github.svg and grid.svg
 const GithubSvg = lazy(() => loadSvgComponent(totalStat, './github.svg'));
-
 const GridSvg = lazy(() => loadSvgComponent(totalStat, './grid.svg'));
 
 const SVGStat = () => {
@@ -19,10 +18,14 @@ const SVGStat = () => {
   }, []);
 
   return (
-    <div id="svgStat">
+    <div id="svgStat" className="mt-8 flex flex-col gap-6">
       <Suspense fallback={<div className="text-center">Loading...</div>}>
-        <GithubSvg className="github-svg mt-4 h-auto w-full" />
-        <GridSvg className="grid-svg mt-4 h-auto w-full" />
+        <div className="rounded-2xl border border-[var(--color-hr)] bg-white/40 p-6 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-md dark:bg-black/25">
+          <GithubSvg className="github-svg h-auto w-full" />
+        </div>
+        <div className="rounded-2xl border border-[var(--color-hr)] bg-white/40 p-6 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-md dark:bg-black/25">
+          <GridSvg className="grid-svg h-auto w-full" />
+        </div>
       </Suspense>
     </div>
   );

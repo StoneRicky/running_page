@@ -147,7 +147,10 @@ const YearStat = ({
   if (!summary) return null;
 
   return (
-    <div className="cursor-pointer" onClick={() => onClick(year)}>
+    <div
+      className="mb-6 cursor-pointer rounded-2xl border border-[var(--color-hr)] bg-white/40 p-6 shadow-sm backdrop-blur-md transition-all duration-300 hover:border-[var(--color-tx)]/40 hover:shadow-md dark:bg-black/25"
+      onClick={() => onClick(year)}
+    >
       <section {...eventHandlers}>
         <Stat value={year} description=" Journey" />
         <Stat value={summary.runCount} description=" Runs" />
@@ -173,7 +176,6 @@ const YearStat = ({
           <GithubYearSVG className="github-year-svg my-4 h-auto w-full border-0 p-0" />
         </Suspense>
       )}
-      <hr />
     </div>
   );
 };

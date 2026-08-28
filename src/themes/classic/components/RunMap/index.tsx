@@ -392,6 +392,10 @@ const RunMap = ({
       width: '100%',
       height: MAP_HEIGHT,
       maxWidth: '100%', // Prevent overflow on mobile
+      borderRadius: '16px',
+      overflow: 'hidden',
+      border: '1px solid var(--color-hr)',
+      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.06)',
     }),
     []
   );
