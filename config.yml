@@ -19,7 +19,7 @@ avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTtc69JxHNcmN1ETp
 locale: zh
 
 # 默认主题：system（跟随系统）| light（浅色）| dark（深色）
-theme: dark
+theme: light
 
 # ── 主题预设 ──────────────────────────────────────────────────────────────────
 # 可选值：dashboard（3.0 Dashboard 风格）| classic（旧版多页面风格）| 自定义主题名

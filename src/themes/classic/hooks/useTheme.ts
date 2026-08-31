@@ -7,11 +7,11 @@ export type Theme = 'light' | 'dark';
 export const THEME_CHANGE_EVENT = 'theme-change';
 
 const getCurrentThemeSnapshot = () => {
-  if (typeof window === 'undefined') return 'dark';
+  if (typeof window === 'undefined') return 'light';
   return (
     document.documentElement.getAttribute('data-theme') ||
     localStorage.getItem('theme') ||
-    'dark'
+    'light'
   );
 };
 
@@ -70,11 +70,11 @@ export const useMapTheme = () => {
   const themeSnapshot = useSyncExternalStore(
     subscribeToThemeChanges,
     getCurrentThemeSnapshot,
-    () => 'dark'
+    () => 'light'
   );
 
   return getMapThemeFromCurrentTheme(
-    themeSnapshot === 'light' ? 'light' : 'dark'
+    themeSnapshot === 'dark' ? 'dark' : 'light'
   );
 };
 
@@ -83,10 +83,10 @@ export const useMapTheme = () => {
  * @returns Object with current theme and function to change theme
  */
 export const useTheme = () => {
-  // Initialize theme from localStorage or default to dark
+  // Initialize theme from localStorage or default to light
   const [themeState, setThemeState] = useState<Theme>(() => {
-    if (typeof window === 'undefined') return 'dark';
-    return (localStorage.getItem('theme') as Theme) || 'dark';
+    if (typeof window === 'undefined') return 'light';
+    return (localStorage.getItem('theme') as Theme) || 'light';
   });
 
   /**
@@ -125,6 +125,6 @@ export const useThemeChangeCounter = () => {
   return useSyncExternalStore(
     subscribeToThemeChanges,
     getCurrentThemeSnapshot,
-    () => 'dark'
+    () => 'light'
   );
 };
