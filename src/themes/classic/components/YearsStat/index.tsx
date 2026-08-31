@@ -29,10 +29,10 @@ const YearsStat = ({
 
   return (
     <div className="w-full pb-16 lg:w-full lg:pr-16">
-      <div className="mb-6 pl-6">
+      <div className="mb-6 px-2 lg:px-0 lg:pl-6">
         <TopProjectedStat />
       </div>
-      <section className="pb-6 pl-6">
+      <section className="pb-6 px-2 lg:px-0 lg:pl-6">
         <p className="leading-relaxed">
           {infoMessage}
           <br />

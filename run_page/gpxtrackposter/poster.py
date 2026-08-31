@@ -113,7 +113,14 @@ class Poster:
             # Year summary has its own layout, use full size
             height = height
         d = svgwrite.Drawing(output, (f"{width}mm", f"{height}mm"))
-        d.viewbox(0, 0, self.width, height)
+        if self.drawer_type == "github":
+            d.viewbox(10, 9, 185, height - 17)
+        elif self.drawer_type == "plain":
+            d.viewbox(10, 10, 180, 180)
+        elif self.drawer_type == "year_summary":
+            d.viewbox(11, 12, 175, 276)
+        else:
+            d.viewbox(10, 10, 180, 283)
         d.add(d.rect((0, 0), (width, height), fill=self.colors["background"]))
         if self.drawer_type == "year_summary":
             # Year summary drawer handles its own layout

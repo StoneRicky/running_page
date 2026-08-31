@@ -60,19 +60,19 @@ const Header = () => {
 
   return (
     <>
-      <nav className="mx-auto flex w-full items-center justify-between pt-10 pl-6 lg:px-16">
+      <nav className="mx-auto flex w-full items-center justify-between pt-6 sm:pt-10 px-4 sm:px-6 lg:px-16">
         <div>
           <Link to="/" className="shrink-0">
             <picture>
               <img
-                className="h-16 w-16 rounded-full shadow-sm transition-transform hover:scale-105"
+                className="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 rounded-full shadow-sm transition-transform hover:scale-105"
                 alt="logo"
                 src={logo}
               />
             </picture>
           </Link>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <div className="flex h-10 items-center gap-1 rounded-full border border-[var(--color-hr)] bg-white/40 px-3.5 shadow-sm backdrop-blur-md dark:bg-black/25">
             {navLinks.map((n) =>
               n.url.startsWith('http') ? (
