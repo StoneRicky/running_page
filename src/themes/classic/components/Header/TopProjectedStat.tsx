@@ -4,7 +4,6 @@ import useActivities from '../../hooks/useActivities';
 import { DIST_UNIT, M_TO_DIST } from '../../utils/utils';
 import { PROJECTED_TITLE, PROJECTED_TOOLTIP } from '../../utils/const';
 
-
 export default function TopProjectedStat() {
   const { activities } = useActivities();
   const currentYear = new Date().getFullYear();

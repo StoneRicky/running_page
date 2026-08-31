@@ -60,12 +60,12 @@ const Header = () => {
 
   return (
     <>
-      <nav className="mx-auto flex w-full items-center justify-between pt-6 sm:pt-10 px-4 sm:px-6 lg:px-16">
+      <nav className="mx-auto flex w-full items-center justify-between px-4 pt-6 sm:px-6 sm:pt-10 lg:px-16">
         <div>
           <Link to="/" className="shrink-0">
             <picture>
               <img
-                className="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 rounded-full shadow-sm transition-transform hover:scale-105"
+                className="h-10 w-10 rounded-full shadow-sm transition-transform hover:scale-105 sm:h-12 sm:w-12 md:h-16 md:w-16"
                 alt="logo"
                 src={logo}
               />

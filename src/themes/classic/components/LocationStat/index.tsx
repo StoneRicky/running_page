@@ -23,7 +23,7 @@ const LocationStat = ({
     <div className="mb-6 px-2 lg:px-0 lg:pl-6">
       <TopProjectedStat />
     </div>
-    <section className="pb-6 px-2 lg:px-0 lg:pl-6">
+    <section className="px-2 pb-6 lg:px-0 lg:pl-6">
       <p className="leading-relaxed">
         {CHINESE_LOCATION_INFO_MESSAGE_FIRST}
         .
