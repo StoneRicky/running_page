@@ -1,10 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useMemo,
-  useRef,
-  type TouchEvent,
-} from 'react';
+import { useState, useEffect, useMemo, useRef, type TouchEvent } from 'react';
 import useActivities from '../../hooks/useActivities';
 import { DIST_UNIT } from '../../utils/utils';
 import {
@@ -93,6 +87,16 @@ const TrendingUpIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (
     className={className}
     viewBox="0 0 24 24"
     fill="none"
+    stroke="currentColor"
+    strokeWidth="1.75"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+    <polyline points="16 7 22 7 22 13" />
+  </svg>
+);
+
 const TrophyIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (
   <svg
     className={className}
@@ -126,7 +130,7 @@ const FlagIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (
   </svg>
 );
 
-const CalendarIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (
+const ClockIcon = ({ className = 'w-3.5 h-3.5' }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 24 24"
@@ -136,25 +140,8 @@ const CalendarIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (
     strokeLinecap="round"
     strokeLinejoin="round"
   >
-    <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
-    <line x1="16" x2="16" y1="2" y2="6" />
-    <line x1="8" x2="8" y1="2" y2="6" />
-    <line x1="3" x2="21" y1="10" y2="10" />
-  </svg>
-);
-
-const GaugeIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.75"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="m12 14 4-4" />
-    <path d="M3.34 19a10 10 0 1 1 17.32 0" />
+    <circle cx="12" cy="12" r="10" />
+    <polyline points="12 6 12 12 16 14" />
   </svg>
 );
 
@@ -169,45 +156,6 @@ const FlameIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (
     strokeLinejoin="round"
   >
     <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3.5z" />
-  </svg>
-);
-
-const CheckCircleIcon = ({
-  className = 'w-4 h-4',
-}: {
-  className?: string;
-}) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.75"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-    <polyline points="22 4 12 14.01 9 11.01" />
-  </svg>
-);
-
-const AlertCircleIcon = ({
-  className = 'w-4 h-4',
-}: {
-  className?: string;
-}) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.75"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <circle cx="12" cy="12" r="10" />
-    <line x1="12" x2="12" y1="8" y2="12" />
-    <line x1="12" x2="12.01" y1="16" y2="16" />
   </svg>
 );
 
