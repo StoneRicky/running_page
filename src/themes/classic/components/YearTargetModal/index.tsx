@@ -259,7 +259,7 @@ const YearTargetModal = ({ initialYear, onClose }: YearTargetModalProps) => {
     <div className={styles.overlay} onClick={onClose}>
       <div
         ref={modalContentRef}
-        className={styles.modal}
+        className={`${styles.modal} backdrop-blur-xl`}
         onClick={(e) => e.stopPropagation()}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}

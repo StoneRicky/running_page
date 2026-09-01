@@ -41,8 +41,8 @@
   border-radius: 9999px;
   border: 1px solid var(--color-hr);
   background-color: var(--color-background);
-  backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   transition: all 0.25s ease;
 }
@@ -164,8 +164,8 @@
 
 .activityCard {
   background-color: var(--color-background);
-  backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
   border: 1px solid var(--color-hr);
   border-radius: 16px;
   padding: 0;
@@ -283,8 +283,8 @@
   border-radius: 9999px;
   border: 1px solid var(--color-hr);
   background-color: var(--color-background);
-  backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   transition: all 0.25s ease;
 }

@@ -34,8 +34,8 @@
   border-radius: 16px;
   border: 1px solid var(--color-hr);
   background-color: var(--color-background);
-  backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
 }
 
