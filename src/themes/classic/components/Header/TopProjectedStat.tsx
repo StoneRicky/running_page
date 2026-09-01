@@ -7,7 +7,7 @@ import YearTargetModal from '../YearTargetModal';
 
 export default function TopProjectedStat() {
   const { activities } = useActivities();
-  const currentYear = new Date().getFullYear();
+  const [currentYear] = useState(() => new Date().getFullYear());
   const currentYearStr = currentYear.toString();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 

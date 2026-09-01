@@ -1,4 +1,4 @@
-import mapboxgl from 'mapbox-gl'; // 👈 必须添加这一行！
+import _mapboxgl from 'mapbox-gl'; // 👈 必须添加这一行！
 import React, {
   useRef,
   useCallback,

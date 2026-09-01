@@ -323,8 +323,6 @@ const Index = () => {
     }
   }, [runs, singleRunId, locateActivity]);
 
-  // 增加一个 ref 来记录上一次处理的年份
-  const lastProcessedYear = useRef(year);
   // Update bounds when geoData changes
   useEffect(() => {
     if (singleRunId === null) {

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useMemo } from 'react';
+import { lazy, Suspense } from 'react';
 import Stat from '../Stat';
 import useActivities from '../../hooks/useActivities';
 import type { Activity } from '../../utils/utils';
@@ -138,7 +138,7 @@ const YearStat = ({
 }) => {
   const { activities } = useActivities();
   // for hover
-  const [hovered, eventHandlers] = useHover();
+  const [_hovered, eventHandlers] = useHover();
   // lazy Component
   const YearSVG = yearSvgs[`./year_${year}.svg`];
   const GithubYearSVG = githubYearSvgs[`./github_${year}.svg`];

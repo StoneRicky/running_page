@@ -134,7 +134,7 @@ export const calculateYearTargetStat = (
     }
   }
 
-  let motivationMessage = '';
+  let motivationMessage: string;
   if (isPastYear) {
     if (isCompleted) {
       motivationMessage = `${targetYear} 年度 KPI 挑战圆满达成！累计跑量超出目标 ${(completedDistance - targetDistance).toFixed(1)} KM。`;

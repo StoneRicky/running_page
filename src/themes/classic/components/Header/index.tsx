@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import type { ReactElement } from 'react';
-import { useState } from 'react';
 import getSiteMetadata from '@core/hooks/useSiteMetadata';
 import { useTheme, Theme } from '../../hooks/useTheme';
 import styles from './style.module.css';
@@ -8,12 +7,6 @@ import styles from './style.module.css';
 const Header = () => {
   const { logo, navLinks } = getSiteMetadata();
   const { theme, setTheme } = useTheme();
-
-  const savedTheme = localStorage.getItem('theme');
-  const localStorageThemeIndex = savedTheme === 'dark' ? 0 : 1;
-  const [currentIconIndex, setCurrentIconIndex] = useState(
-    localStorageThemeIndex
-  );
 
   const icons: Record<Theme, ReactElement> = {
     dark: (
