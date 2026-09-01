@@ -91,6 +91,35 @@ const yearSummarySvgs = Object.fromEntries(
   ])
 );
 
+const HomeIcon = ({ className = 'w-3.5 h-3.5' }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+    <polyline points="9 22 9 12 15 12 15 22" />
+  </svg>
+);
+
+const ChevronDownIcon = ({ className = 'w-3.5 h-3.5' }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="6 9 12 15 18 9" />
+  </svg>
+);
+
 interface ActivitySummary {
   totalDistance: number;
   totalTime: number;
@@ -906,33 +935,45 @@ const ActivityList: React.FC = () => {
   return (
     <div className={styles.activityList}>
       <div className={styles.filterContainer} ref={setFilterContainerRef}>
-        <button className={styles.smallHomeButton} onClick={handleHomeClick}>
-          {HOME_PAGE_TITLE}
-        </button>
-        <select
-          onChange={(e) => setSportType(e.target.value)}
-          value={sportType}
-        >
-          {sportTypeOptions.map((type) => (
-            <option
-              key={type}
-              value={type}
-              disabled={interval === 'life' && type !== 'all'}
+        <div className={styles.filterBar}>
+          <button className={styles.smallHomeButton} onClick={handleHomeClick}>
+            <HomeIcon className={styles.homeIcon} />
+            <span>{HOME_PAGE_TITLE}</span>
+          </button>
+          <div className={styles.divider} />
+          <div className={styles.selectWrapper}>
+            <select
+              className={styles.filterSelect}
+              onChange={(e) => setSportType(e.target.value)}
+              value={sportType}
             >
-              {type}
-            </option>
-          ))}
-        </select>
-        <select
-          onChange={(e) => toggleInterval(e.target.value as IntervalType)}
-          value={interval}
-        >
-          <option value="year">{ACTIVITY_TOTAL.YEARLY_TITLE}</option>
-          <option value="month">{ACTIVITY_TOTAL.MONTHLY_TITLE}</option>
-          <option value="week">{ACTIVITY_TOTAL.WEEKLY_TITLE}</option>
-          <option value="day">{ACTIVITY_TOTAL.DAILY_TITLE}</option>
-          <option value="life">Life</option>
-        </select>
+              {sportTypeOptions.map((type) => (
+                <option
+                  key={type}
+                  value={type}
+                  disabled={interval === 'life' && type !== 'all'}
+                >
+                  {type}
+                </option>
+              ))}
+            </select>
+            <ChevronDownIcon className={styles.selectArrow} />
+          </div>
+          <div className={styles.selectWrapper}>
+            <select
+              className={styles.filterSelect}
+              onChange={(e) => toggleInterval(e.target.value as IntervalType)}
+              value={interval}
+            >
+              <option value="year">{ACTIVITY_TOTAL.YEARLY_TITLE}</option>
+              <option value="month">{ACTIVITY_TOTAL.MONTHLY_TITLE}</option>
+              <option value="week">{ACTIVITY_TOTAL.WEEKLY_TITLE}</option>
+              <option value="day">{ACTIVITY_TOTAL.DAILY_TITLE}</option>
+              <option value="life">Life</option>
+            </select>
+            <ChevronDownIcon className={styles.selectArrow} />
+          </div>
+        </div>
       </div>
 
       {interval === 'life' && (

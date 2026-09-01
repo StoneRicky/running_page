@@ -28,32 +28,133 @@
 .filterContainer {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  align-items: center;
   margin-bottom: 24px;
   overflow: visible;
 }
 
-.filterContainer select {
-  appearance: none;
-  width: 110px;
-  padding: 10px 14px;
-  border-radius: 12px;
+.filterBar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 9999px;
   border: 1px solid var(--color-hr);
   background-color: var(--color-background);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s ease;
+}
+
+:global([data-theme='dark']) .filterBar {
+  background-color: rgba(18, 18, 24, 0.45);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.smallHomeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 16px;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.smallHomeButton:hover {
+  transform: scale(1.03);
+  opacity: 0.92;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.smallHomeButton:active {
+  transform: scale(0.97);
+}
+
+.homeIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.divider {
+  width: 1px;
+  height: 18px;
+  background-color: var(--color-hr);
+  opacity: 0.7;
+  margin: 0 2px;
+}
+
+.selectWrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.filterSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 32px;
+  min-width: 90px;
+  padding: 0 26px 0 14px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background-color: transparent;
   color: var(--color-run-table-thead);
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
   text-align: center;
   text-transform: capitalize;
   box-sizing: border-box;
-  font-weight: 600;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
   transition: all 0.2s ease;
 }
 
-.filterContainer select:hover {
+.filterSelect:hover {
+  background-color: rgba(255, 255, 255, 0.35);
+  color: var(--color-primary);
+}
+
+:global([data-theme='dark']) .filterSelect:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--color-primary);
+}
+
+.filterSelect:focus {
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.5);
   border-color: var(--color-primary);
+}
+
+:global([data-theme='dark']) .filterSelect:focus {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.filterSelect option {
+  background-color: var(--color-background, #ffffff);
+  color: var(--color-primary, #1e3a8a);
+  font-weight: 600;
+}
+
+.selectArrow {
+  position: absolute;
+  right: 10px;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+  color: var(--color-run-table-thead);
+  opacity: 0.6;
+  transition: transform 0.2s ease;
 }
 
 .summaryContainer {
@@ -164,22 +265,6 @@
   padding: 4px;
 }
 
-.smallHomeButton {
-  width: 90px;
-  padding: 6px 14px;
-  background-color: var(--color-primary);
-  color: var(--color-background);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-right: 20px;
-  font-weight: 600;
-  transition: opacity 0.2s ease;
-}
-
-.smallHomeButton:hover {
-  background-color: var(--color-secondary);
-}
 
 .lifeContainer {
   display: flex;
@@ -189,38 +274,69 @@
 }
 
 .yearSelector {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
+  align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
-  padding: 10px;
+  margin-bottom: 24px;
+  padding: 4px;
+  border-radius: 9999px;
+  border: 1px solid var(--color-hr);
+  background-color: var(--color-background);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s ease;
+}
+
+:global([data-theme='dark']) .yearSelector {
+  background-color: rgba(18, 18, 24, 0.45);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .yearButton {
-  padding: 8px 16px;
-  background-color: var(--color-background);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  color: var(--color-primary);
-  border: 1px solid var(--color-hr);
-  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  padding: 0 16px;
+  background-color: transparent;
+  color: var(--color-run-table-thead);
+  border: 1px solid transparent;
+  border-radius: 9999px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  transition: all 0.2s;
+  font-family: inherit;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  user-select: none;
 }
 
 .yearButton:hover {
-  background-color: var(--color-primary);
-  color: var(--color-background);
-  border-color: var(--color-primary);
+  background-color: rgba(255, 255, 255, 0.35);
+  color: var(--color-primary);
+  transform: scale(1.02);
+}
+
+:global([data-theme='dark']) .yearButton:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--color-primary);
 }
 
 .yearButtonActive {
-  background-color: var(--color-primary);
-  color: var(--color-background);
-  border-color: var(--color-primary);
+  background-color: var(--color-primary) !important;
+  color: #ffffff !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.yearButtonActive:hover {
+  transform: scale(1.02);
+  opacity: 0.95;
+  color: #ffffff !important;
 }
 
 .yearSummarySvg {

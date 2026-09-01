@@ -3,11 +3,13 @@ import { useInterval } from '@core/hooks/useInterval';
 import useActivities from '../../hooks/useActivities';
 import { DIST_UNIT, M_TO_DIST } from '../../utils/utils';
 import { PROJECTED_TITLE, PROJECTED_TOOLTIP } from '../../utils/const';
+import YearTargetModal from '../YearTargetModal';
 
 export default function TopProjectedStat() {
   const { activities } = useActivities();
   const currentYear = new Date().getFullYear();
   const currentYearStr = currentYear.toString();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const currentYearDistance = useMemo(() => {
     return (
@@ -43,27 +45,44 @@ export default function TopProjectedStat() {
   }, 100);
 
   return (
-    <div
-      className="inline-flex h-10 items-center gap-2.5 rounded-full border border-[var(--color-hr)] bg-white/40 p-1 pr-4 shadow-sm backdrop-blur-md transition-all duration-300 select-none hover:border-[var(--color-tx)]/40 hover:shadow-md dark:bg-black/25"
-      title={PROJECTED_TOOLTIP(currentYear)}
-    >
-      {/* 1. 左侧分段小标签 */}
-      <span className="inline-flex h-full items-center rounded-full bg-[var(--color-tx)]/10 px-3 text-xs font-bold tracking-wide text-[var(--color-tx)] dark:bg-white/15 dark:text-white">
-        {PROJECTED_TITLE}
-      </span>
-      {/* 2. 跑量数字 */}
-      <span className="font-mono text-base font-extrabold tracking-tight tabular-nums sm:text-lg">
-        {projectedValue}
-      </span>
-      {/* 3. 单位 KM */}
-      <span className="text-xs font-bold uppercase opacity-85">
-        {DIST_UNIT}
-      </span>
-      {/* 4. 绿点 */}
-      <span className="relative ml-0.5 flex h-2.5 w-2.5">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-sm" />
-      </span>
-    </div>
+    <>
+      <div
+        className="group inline-flex h-10 cursor-pointer items-center gap-2.5 rounded-full border border-[var(--color-hr)] bg-white/40 p-1 pr-4 shadow-sm backdrop-blur-md transition-all duration-300 select-none hover:scale-[1.02] hover:border-[var(--color-tx)]/40 hover:shadow-md active:scale-[0.98] dark:bg-black/25"
+        title={PROJECTED_TOOLTIP(currentYear)}
+        onClick={() => setIsModalOpen(true)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            setIsModalOpen(true);
+          }
+        }}
+      >
+        {/* 1. 左侧分段小标签 */}
+        <span className="inline-flex h-full items-center rounded-full bg-[var(--color-tx)]/10 px-3 text-xs font-bold tracking-wide text-[var(--color-tx)] transition-colors group-hover:bg-[var(--color-brand)] group-hover:text-white dark:bg-white/15 dark:text-white">
+          {PROJECTED_TITLE}
+        </span>
+        {/* 2. 跑量数字 */}
+        <span className="font-mono text-base font-extrabold tracking-tight tabular-nums sm:text-lg">
+          {projectedValue}
+        </span>
+        {/* 3. 单位 KM */}
+        <span className="text-xs font-bold uppercase opacity-85">
+          {DIST_UNIT}
+        </span>
+        {/* 4. 绿点 */}
+        <span className="relative ml-0.5 flex h-2.5 w-2.5">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-sm" />
+        </span>
+      </div>
+
+      {isModalOpen && (
+        <YearTargetModal
+          initialYear={currentYear}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
+    </>
   );
 }

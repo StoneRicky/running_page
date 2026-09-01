@@ -284,6 +284,7 @@ def main():
     if is_year_summary:
         p.drawer_type = "year_summary"
     if args.type == "github":
+        p.drawer_type = "github"
         p.height = 55 + p.years.real_year * 43
     p.github_style = args.github_style
 
@@ -323,6 +324,7 @@ def main():
         for y in years:
             p.years.from_year, p.years.to_year = y, y
             # Single year = height for exactly 1 year row
+            p.drawer_type = "github"
             p.height = 55 + 1 * 43
             # Re-set tracks for this year's data
             p.set_tracks(tracks)
@@ -330,6 +332,7 @@ def main():
             # --- 核心修复：强制重置高度 ---
             # 既然是单年份生成，高度固定为 1 年的高度 (55 + 1 * 43 = 98)
             # 这样就不会因为 real_year 仍然是 3 年而导致图片下方有空白
+            p.drawer_type = "github"
             p.height = 55 + 1 * 43
             # ---------------------------
 

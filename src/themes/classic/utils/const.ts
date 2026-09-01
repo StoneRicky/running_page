@@ -103,8 +103,16 @@ const INVALID_ROUTE_DATA = IS_CHINESE ? '路线数据无效' : 'Invalid route da
 const PROJECTED_TITLE = IS_CHINESE ? '年度预计' : 'Projected';
 const PROJECTED_TOOLTIP = (year: number | string): string =>
   IS_CHINESE
-    ? `基于今年跑步数据与时间进度，实时推算 ${year} 全年预计完成里程`
-    : `Real-time projected total running distance for ${year} based on current progress`;
+    ? `基于今年跑步数据与时间进度，实时推算 ${year} 全年预计完成里程（点击查看年份跑量挑战）`
+    : `Real-time projected total running distance for ${year} (Click to view Year Target Challenge)`;
+
+const YEAR_TARGET_TITLE = IS_CHINESE
+  ? '年度跑量 KPI 挑战'
+  : 'Year Target KPI Challenge';
+const YEAR_TARGET_SUBTITLE = (year: number | string): string =>
+  IS_CHINESE
+    ? `每年至少跑满当年年份公里数 · ${year} 目标 ${year} KM`
+    : `Run the year in kilometers · ${year} Target: ${year} KM`;
 
 const ACTIVITY_TYPES = {
   RUN_GENERIC_TITLE,
@@ -170,6 +178,8 @@ export {
   INVALID_ROUTE_DATA,
   PROJECTED_TITLE,
   PROJECTED_TOOLTIP,
+  YEAR_TARGET_TITLE,
+  YEAR_TARGET_SUBTITLE,
 };
 
 const nike = 'rgb(224,237,94)'; // if you want to change the main color, modify this value in src/styles/variables.scss
