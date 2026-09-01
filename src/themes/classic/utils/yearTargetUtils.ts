@@ -68,8 +68,7 @@ export const calculateYearTargetStat = (
   const yearActivities = activities
     .filter(
       (a) =>
-        a.start_date_local &&
-        a.start_date_local.slice(0, 4) === targetYearStr
+        a.start_date_local && a.start_date_local.slice(0, 4) === targetYearStr
     )
     .sort((a, b) => {
       return (
@@ -98,8 +97,7 @@ export const calculateYearTargetStat = (
   const requiredMonthlyDistance =
     remainingDays > 0 && !isCompleted ? remainingDistance / remainingMonths : 0;
 
-  const actualDailyDistance =
-    dayOfYear > 0 ? completedDistance / dayOfYear : 0;
+  const actualDailyDistance = dayOfYear > 0 ? completedDistance / dayOfYear : 0;
   const actualWeeklyDistance = actualDailyDistance * 7;
 
   const projectedYearDistance = isPastYear

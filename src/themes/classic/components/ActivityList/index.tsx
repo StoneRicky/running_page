@@ -106,7 +106,11 @@ const HomeIcon = ({ className = 'w-3.5 h-3.5' }: { className?: string }) => (
   </svg>
 );
 
-const ChevronDownIcon = ({ className = 'w-3.5 h-3.5' }: { className?: string }) => (
+const ChevronDownIcon = ({
+  className = 'w-3.5 h-3.5',
+}: {
+  className?: string;
+}) => (
   <svg
     className={className}
     viewBox="0 0 24 24"
