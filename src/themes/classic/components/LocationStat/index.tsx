@@ -24,7 +24,7 @@ const LocationStat = ({
       <TopProjectedStat />
     </div>
     <section className="mb-6 px-2 lg:px-0 lg:pl-6">
-      <div className="inline-block rounded-2xl border border-[var(--color-hr)] bg-white/40 p-4 text-xs font-medium text-[var(--color-tx)] shadow-sm backdrop-blur-md sm:text-sm dark:bg-black/25">
+      <div className="inline-block rounded-2xl border border-[var(--color-hr)] bg-[var(--color-background)] p-4 text-xs font-medium text-[var(--color-tx)] shadow-sm backdrop-blur-md sm:text-sm">
         <p className="leading-relaxed">
           {CHINESE_LOCATION_INFO_MESSAGE_FIRST}.
           <br />

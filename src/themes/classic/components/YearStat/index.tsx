@@ -148,7 +148,7 @@ const YearStat = ({
 
   return (
     <div
-      className="mb-6 cursor-pointer rounded-2xl border border-[var(--color-hr)] bg-white/40 p-6 shadow-sm backdrop-blur-md transition-all duration-300 hover:border-[var(--color-tx)]/40 hover:shadow-md dark:bg-black/25"
+      className="mb-6 cursor-pointer rounded-2xl border border-[var(--color-hr)] bg-[var(--color-background)] p-6 shadow-sm backdrop-blur-md transition-all duration-300 hover:border-[var(--color-tx)]/40 hover:shadow-md"
       onClick={() => onClick(year)}
     >
       <section {...eventHandlers}>

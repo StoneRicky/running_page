@@ -47,7 +47,7 @@ export default function TopProjectedStat() {
   return (
     <>
       <div
-        className="group inline-flex h-10 cursor-pointer items-center gap-2.5 rounded-full border border-[var(--color-hr)] bg-white/40 p-1 pr-4 shadow-sm backdrop-blur-md transition-all duration-300 select-none hover:scale-[1.02] hover:border-[var(--color-tx)]/40 hover:shadow-md active:scale-[0.98] dark:bg-black/25"
+        className="group inline-flex h-10 cursor-pointer items-center gap-2.5 rounded-full border border-[var(--color-hr)] bg-[var(--color-background)] p-1 pr-4 shadow-sm backdrop-blur-md transition-all duration-300 select-none hover:scale-[1.02] hover:border-[var(--color-tx)]/40 hover:shadow-md active:scale-[0.98]"
         title={PROJECTED_TOOLTIP(currentYear)}
         onClick={() => setIsModalOpen(true)}
         role="button"

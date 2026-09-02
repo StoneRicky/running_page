@@ -48,8 +48,8 @@
 }
 
 :global([data-theme='dark']) .filterBar {
-  background-color: rgba(18, 18, 24, 0.45);
-  border-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.25);
+  border-color: var(--color-hr);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
@@ -292,8 +292,8 @@
 }
 
 :global([data-theme='dark']) .lifeCard {
-  background-color: rgba(18, 18, 24, 0.45);
-  border-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.25);
+  border-color: var(--color-hr);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
 }
 
@@ -315,8 +315,8 @@
 }
 
 :global([data-theme='dark']) .yearSelector {
-  background-color: rgba(18, 18, 24, 0.45);
-  border-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.25);
+  border-color: var(--color-hr);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 

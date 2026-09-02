@@ -20,10 +20,10 @@ const SVGStat = () => {
   return (
     <div id="svgStat" className="mt-8 flex flex-col gap-6">
       <Suspense fallback={<div className="text-center">Loading...</div>}>
-        <div className="rounded-2xl border border-[var(--color-hr)] bg-white/40 p-6 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-md dark:bg-black/25">
+        <div className="rounded-2xl border border-[var(--color-hr)] bg-[var(--color-background)] p-6 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-md">
           <GithubSvg className="github-svg h-auto w-full" />
         </div>
-        <div className="rounded-2xl border border-[var(--color-hr)] bg-white/40 p-6 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-md dark:bg-black/25">
+        <div className="rounded-2xl border border-[var(--color-hr)] bg-[var(--color-background)] p-6 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-md">
           <GridSvg className="grid-svg h-auto w-full" />
         </div>
       </Suspense>
