@@ -4,7 +4,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: #222222;
+  background: rgba(0, 0, 0, 0.65);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,9 +15,9 @@
 
 .modal {
   position: relative;
-  width: 100vw;
-  height: 100vh;
-  background: #222222;
+  max-width: 95vw;
+  max-height: 95vh;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,30 +25,41 @@
 
 .closeButton {
   position: absolute;
-  top: 20px;
-  right: 30px;
-  background: none;
-  border: none;
-  color: #888;
-  font-size: 36px;
+  top: 16px;
+  right: 24px;
+  background: rgba(128, 128, 128, 0.2);
+  border: 1px solid var(--color-hr);
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-run-date);
+  font-size: 26px;
   cursor: pointer;
-  transition: color 0.2s;
+  transition: all 0.2s ease;
   z-index: 10;
+  backdrop-filter: blur(6px);
 }
 
 .closeButton:hover {
-  color: #fff;
+  background: rgba(128, 128, 128, 0.35);
+  color: var(--color-primary);
+  transform: scale(1.05);
 }
 
 .svg {
   width: auto;
-  height: 90vh;
-  max-width: 95vw;
+  height: 88vh;
+  max-width: 92vw;
   display: block;
+  border-radius: 16px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
 }
 
 .loading {
-  color: #888;
+  color: var(--color-run-date);
   padding: 40px;
   text-align: center;
 }

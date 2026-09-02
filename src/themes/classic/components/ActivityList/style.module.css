@@ -270,6 +270,31 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 0 16px 3rem 16px;
+}
+
+.lifeCard {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 36px;
+  border-radius: 28px;
+  border: 1px solid var(--color-hr);
+  background-color: var(--color-background);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  width: fit-content;
+  min-width: min(580px, 92vw);
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+:global([data-theme='dark']) .lifeCard {
+  background-color: rgba(18, 18, 24, 0.45);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
 }
 
 .yearSelector {
@@ -339,9 +364,58 @@
 }
 
 .yearSummarySvg {
-  max-width: 100%;
+  width: auto;
   height: auto;
-  max-height: 80vh;
+  max-width: 100%;
+  max-height: 75vh;
+  display: block;
+}
+
+.yearSummarySvg text,
+.yearSummarySvg text[fill='#FFFFFF'],
+.yearSummarySvg text[fill='#ffffff'],
+.yearSummarySvg text[fill='#fff'],
+.yearSummarySvg :global(.svg-color-text) {
+  fill: var(--color-run-date) !important;
+}
+
+.yearSummarySvg text[fill='#555555'],
+.yearSummarySvg text[fill='#555'] {
+  fill: var(--color-tx) !important;
+  opacity: 0.75;
+}
+
+.yearSummarySvg circle[fill='#555555'],
+.yearSummarySvg circle[fill='#555'] {
+  fill: var(--color-activity-card) !important;
+}
+
+.lifeSvg {
+  width: 100%;
+  height: auto;
+  min-width: min(720px, 92vw);
+  max-width: 880px;
+  max-height: 94vh;
+  display: block;
+}
+
+.lifeSvg text,
+.lifeSvg text[fill='#FFFFFF'],
+.lifeSvg text[fill='#ffffff'],
+.lifeSvg text[fill='#fff'],
+.lifeSvg :global(.svg-color-text) {
+  fill: var(--color-run-date) !important;
+}
+
+.lifeSvg text[fill='#555555'],
+.lifeSvg text[fill='#555'] {
+  fill: var(--color-tx) !important;
+  opacity: 0.75;
+}
+
+.lifeSvg circle[fill='#555555'],
+.lifeSvg circle[fill='#555'] {
+  fill: var(--color-activity-card) !important;
 }
 
 /* Inner wrapper to center the virtual list rows and constrain width */

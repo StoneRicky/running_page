@@ -984,37 +984,55 @@ const ActivityList: React.FC = () => {
         <div className={styles.lifeContainer}>
           {/* Year selector buttons */}
           <div className={styles.yearSelector}>
+            <button
+              className={`${styles.yearButton} ${selectedYear === null ? styles.yearButtonActive : ''}`}
+              onClick={() => setSelectedYear(null)}
+            >
+              Life
+            </button>
             {availableYears.map((year) => (
               <button
                 key={year}
                 className={`${styles.yearButton} ${selectedYear === year ? styles.yearButtonActive : ''}`}
-                onClick={() =>
-                  setSelectedYear(selectedYear === year ? null : year)
-                }
+                onClick={() => setSelectedYear(year)}
               >
                 {year}
               </button>
             ))}
           </div>
-          <Suspense fallback={<div>Loading SVG...</div>}>
-            {SelectedYearSvg ? (
-              // Show Year Summary SVG when a year is selected
-              <SelectedYearSvg className={styles.yearSummarySvg} />
-            ) : (
-              // Show Life SVG when no year is selected
-              <>
-                {(sportType === 'running' || sportType === 'Run') && (
-                  <RunningSvg />
-                )}
-                {sportType === 'walking' && <WalkingSvg />}
-                {sportType === 'hiking' && <HikingSvg />}
-                {sportType === 'cycling' && <CyclingSvg />}
-                {sportType === 'swimming' && <SwimmingSvg />}
-                {sportType === 'skiing' && <SkiingSvg />}
-                {sportType === 'all' && <AllSvg />}
-              </>
-            )}
-          </Suspense>
+          <div className={styles.lifeCard}>
+            <Suspense fallback={<div>Loading SVG...</div>}>
+              {SelectedYearSvg ? (
+                // Show Year Summary SVG when a year is selected
+                <SelectedYearSvg className={`${styles.yearSummarySvg} year-summary-svg`} />
+              ) : (
+                // Show Life SVG when no year is selected
+                <>
+                  {(sportType === 'running' || sportType === 'Run') && (
+                    <RunningSvg className={styles.lifeSvg} />
+                  )}
+                  {sportType === 'walking' && (
+                    <WalkingSvg className={styles.lifeSvg} />
+                  )}
+                  {sportType === 'hiking' && (
+                    <HikingSvg className={styles.lifeSvg} />
+                  )}
+                  {sportType === 'cycling' && (
+                    <CyclingSvg className={styles.lifeSvg} />
+                  )}
+                  {sportType === 'swimming' && (
+                    <SwimmingSvg className={styles.lifeSvg} />
+                  )}
+                  {sportType === 'skiing' && (
+                    <SkiingSvg className={styles.lifeSvg} />
+                  )}
+                  {sportType === 'all' && (
+                    <AllSvg className={styles.lifeSvg} />
+                  )}
+                </>
+              )}
+            </Suspense>
+          </div>
         </div>
       )}
 

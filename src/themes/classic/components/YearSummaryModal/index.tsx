@@ -37,7 +37,7 @@ const YearSummaryModal = ({ year, onClose }: YearSummaryModalProps) => {
         </button>
         {YearSummarySVG && (
           <Suspense fallback={<div className={styles.loading}>Loading...</div>}>
-            <YearSummarySVG className={styles.svg} />
+            <YearSummarySVG className={`${styles.svg} year-summary-svg`} />
           </Suspense>
         )}
       </div>

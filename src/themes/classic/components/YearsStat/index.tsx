@@ -29,14 +29,13 @@ const YearsStat = ({
 
   return (
     <div className="w-full pb-16 lg:w-full lg:pr-16">
-      <div className="mb-6 px-2 lg:px-0 lg:pl-6">
+      <div className="mb-4 px-2 lg:px-0 lg:pl-6">
         <TopProjectedStat />
       </div>
-      <section className="px-2 pb-6 lg:px-0 lg:pl-6">
-        <p className="leading-relaxed">
-          {infoMessage}
-          <br />
-        </p>
+      <section className="mb-6 px-2 lg:px-0 lg:pl-6">
+        <div className="inline-flex items-center rounded-full border border-[var(--color-hr)] bg-white/40 px-4 py-1.5 text-xs font-semibold text-[var(--color-tx)] shadow-sm backdrop-blur-md dark:bg-black/25 sm:text-sm">
+          <span>{infoMessage}</span>
+        </div>
       </section>
       {yearsArrayUpdate.map((yearItem) => (
         <YearStat key={yearItem} year={yearItem} onClick={onClick} />

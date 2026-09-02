@@ -65,14 +65,14 @@ const Header = () => {
             </picture>
           </Link>
         </div>
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 text-[var(--color-brand)]">
           <div className="flex h-10 items-center gap-1 rounded-full border border-[var(--color-hr)] bg-white/40 px-3.5 shadow-sm backdrop-blur-md dark:bg-black/25">
             {navLinks.map((n) =>
               n.url.startsWith('http') ? (
                 <a
                   key={n.url}
                   href={n.url}
-                  className="rounded-full px-2.5 py-1 text-sm font-semibold opacity-85 transition-all hover:bg-white/20 hover:opacity-100 dark:hover:bg-white/10"
+                  className="rounded-full px-2.5 py-1 text-sm font-semibold text-[var(--color-brand)] transition-all hover:bg-white/20 dark:hover:bg-white/10"
                 >
                   {n.name}
                 </a>
@@ -80,7 +80,7 @@ const Header = () => {
                 <Link
                   key={n.url}
                   to={n.url}
-                  className="rounded-full px-2.5 py-1 text-sm font-semibold opacity-85 transition-all hover:bg-white/20 hover:opacity-100 dark:hover:bg-white/10"
+                  className="rounded-full px-2.5 py-1 text-sm font-semibold text-[var(--color-brand)] transition-all hover:bg-white/20 dark:hover:bg-white/10"
                 >
                   {n.name}
                 </Link>
@@ -90,7 +90,7 @@ const Header = () => {
           <button
             type="button"
             onClick={handleToggle}
-            className={`${styles.themeButton} ${styles.themeButtonActive}`}
+            className={`${styles.themeButton} ${styles.themeButtonActive} text-[var(--color-brand)]`}
             aria-label={`Switch to ${nextTheme} theme`}
             title={`Switch to ${nextTheme} theme`}
           >

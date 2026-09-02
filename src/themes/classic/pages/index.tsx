@@ -411,7 +411,7 @@ const Index = () => {
         <html lang="en" data-theme={theme} />
       </Helmet>
       <div className="w-full lg:w-1/3">
-        <h1 className="mt-6 mb-6 px-2 text-5xl font-extrabold lg:px-0 lg:pl-6">
+        <h1 className="site-title mt-6 mb-6 px-2 text-5xl font-extrabold lg:px-0 lg:pl-6">
           <a href={siteUrl}>{siteTitle}</a>
         </h1>
         {(viewState.zoom ?? 0) <= 3 && IS_CHINESE ? (

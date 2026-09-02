@@ -24,11 +24,14 @@
   /* fonts */
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+  /* bg-image */
+  --bg-image: var(--bg-image);
 }
 
 /* 1. System Theme (Base) */
 @media (prefers-color-scheme: light) {
   :root {
+    --bg-image: url('/images/bg-light.jpg');
     --color-brand: #1e3a8a;
     --color-secondary: var(--color-sky-800);
     --color-bg: rgba(245, 245, 245, 0.5);
@@ -49,6 +52,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --bg-image: url('/images/bg-dark.jpg');
     /* const nike = 'rgb(224,237,94)'; */
     --color-brand: #ff2099;
     --color-secondary: #ccd94a;
@@ -70,6 +74,7 @@
 
 /* 2. Manual Override (Higher Priority) */
 [data-theme='light'] {
+  --bg-image: url('/images/bg-light.jpg');
   --color-brand: #1e3a8a;
   --color-secondary: var(--color-sky-800);
   --color-bg: rgba(245, 245, 245, 0.5);
@@ -89,6 +94,7 @@
 }
 
 [data-theme='dark'] {
+  --bg-image: url('/images/bg-dark.jpg');
   /* const nike = 'rgb(224,237,94)'; */
   --color-brand: #ff2099;
   --color-secondary: #ccd94a;
@@ -110,7 +116,7 @@
 @layer base {
   html,
   body {
-    background-color: var(--color-background);
+    background-color: transparent;
     color: var(--color-brand);
     transition:
       background-color 0.1s ease,
@@ -133,7 +139,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* 直接在 CSS 文件末尾添加，风险最小 */
 body::before {
   content: '';
   position: fixed;
@@ -141,15 +146,34 @@ body::before {
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('https://stonericky.github.io/img/bg-09.jpg') no-repeat center
-    center fixed;
+  background-color: var(--color-bg);
+  background-image: var(--bg-image, url('/images/bg.jpg'));
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
   background-size: cover;
-  /* filter: blur(10px); */
-  border-radius: 8px;
-  /* 模糊 10px，并稍微调暗 */
   z-index: -1;
-  transform: scale(1.1);
-  /* 消除模糊边缘的白边 */
+  transition:
+    background-image 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.site-title {
+  color: var(--color-brand);
+  text-shadow:
+    0 1px 2px rgba(255, 255, 255, 0.95),
+    0 0 16px rgba(255, 255, 255, 0.8),
+    0 0 32px rgba(255, 255, 255, 0.6);
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+  transition: all 0.3s ease;
+}
+
+[data-theme='dark'] .site-title {
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.95),
+    0 0 16px rgba(0, 0, 0, 0.8),
+    0 0 32px rgba(0, 0, 0, 0.6);
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
 }
 
 iframe {
@@ -164,12 +188,32 @@ hr {
 }
 
 .github-svg text,
+.github-year-svg text,
 .grid-svg text,
 .year-svg text {
-  fill: var(--color-run-date);
+  fill: var(--color-run-date) !important;
+}
+
+.github-svg line,
+.github-year-svg line,
+.year-svg line {
+  stroke: var(--color-run-date);
+}
+
+.github-svg rect:first-of-type,
+.github-year-svg rect:first-of-type,
+.year-svg rect:first-of-type,
+.year-svg rect:nth-of-type(2) {
+  fill: transparent !important;
+}
+
+.github-svg rect[fill="#444444"],
+.github-year-svg rect[fill="#444444"] {
+  fill: var(--color-activity-card) !important;
 }
 
 .github-svg,
+.github-year-svg,
 .grid-svg,
 .year-svg {
   justify-self: center;
@@ -179,6 +223,10 @@ hr {
 
 .svg-color-bg {
   fill: none;
+}
+
+.svg-color-text {
+  fill: var(--color-run-date) !important;
 }
 
 .svg-color-inactive-cell {
@@ -210,6 +258,30 @@ hr {
 .grid-svg .svg-special-color2 {
   fill: none;
   stroke: var(--svg-special-color2);
+}
+
+/* Year Summary SVG Theme Styles */
+.year-summary-svg rect:first-of-type {
+  fill: var(--color-background) !important;
+}
+
+.year-summary-svg text,
+.year-summary-svg text[fill='#FFFFFF'],
+.year-summary-svg text[fill='#ffffff'],
+.year-summary-svg text[fill='#fff'],
+.year-summary-svg .svg-color-text {
+  fill: var(--color-run-date) !important;
+}
+
+.year-summary-svg text[fill='#555555'],
+.year-summary-svg text[fill='#555'] {
+  fill: var(--color-tx) !important;
+  opacity: 0.75;
+}
+
+.year-summary-svg circle[fill='#555555'],
+.year-summary-svg circle[fill='#555'] {
+  fill: var(--color-activity-card) !important;
 }
 
 /* Mobile-specific improvements */

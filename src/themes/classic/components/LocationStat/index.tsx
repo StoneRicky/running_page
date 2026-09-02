@@ -20,20 +20,20 @@ const LocationStat = ({
   changeTitle,
 }: ILocationStatProps) => (
   <div className="w-full pb-16 lg:w-full lg:pr-16">
-    <div className="mb-6 px-2 lg:px-0 lg:pl-6">
+    <div className="mb-4 px-2 lg:px-0 lg:pl-6">
       <TopProjectedStat />
     </div>
-    <section className="px-2 pb-6 lg:px-0 lg:pl-6">
-      <p className="leading-relaxed">
-        {CHINESE_LOCATION_INFO_MESSAGE_FIRST}
-        .
-        <br />
-        {CHINESE_LOCATION_INFO_MESSAGE_SECOND}
-        .
-        <br />
-        <br />
-        Yesterday you said tomorrow.
-      </p>
+    <section className="mb-6 px-2 lg:px-0 lg:pl-6">
+      <div className="inline-block rounded-2xl border border-[var(--color-hr)] bg-white/40 p-4 text-xs font-medium text-[var(--color-tx)] shadow-sm backdrop-blur-md dark:bg-black/25 sm:text-sm">
+        <p className="leading-relaxed">
+          {CHINESE_LOCATION_INFO_MESSAGE_FIRST}.
+          <br />
+          {CHINESE_LOCATION_INFO_MESSAGE_SECOND}.
+          <br />
+          <br />
+          <span className="italic opacity-80">Yesterday you said tomorrow.</span>
+        </p>
+      </div>
     </section>
     <LocationSummary />
     <CitiesStat onClick={changeCity} />
