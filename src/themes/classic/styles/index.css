@@ -150,7 +150,6 @@ body::before {
   background-image: var(--bg-image, url('/images/bg.jpg'));
   background-repeat: no-repeat;
   background-position: center center;
-  background-attachment: fixed;
   background-size: cover;
   z-index: -1;
   transition:
