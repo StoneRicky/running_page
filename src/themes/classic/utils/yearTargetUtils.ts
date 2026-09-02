@@ -1,5 +1,5 @@
 import type { Activity } from './utils';
-import { M_TO_DIST } from './utils';
+import { M_TO_DIST, isRunActivity } from './utils';
 
 export interface YearTargetStat {
   year: number;
@@ -68,7 +68,9 @@ export const calculateYearTargetStat = (
   const yearActivities = activities
     .filter(
       (a) =>
-        a.start_date_local && a.start_date_local.slice(0, 4) === targetYearStr
+        a.start_date_local &&
+        a.start_date_local.slice(0, 4) === targetYearStr &&
+        isRunActivity(a)
     )
     .sort((a, b) => {
       return (

@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useInterval } from '@core/hooks/useInterval';
 import useActivities from '../../hooks/useActivities';
-import { DIST_UNIT, M_TO_DIST } from '../../utils/utils';
+import { DIST_UNIT, M_TO_DIST, isRunActivity } from '../../utils/utils';
 import { PROJECTED_TITLE, PROJECTED_TOOLTIP } from '../../utils/const';
 import YearTargetModal from '../YearTargetModal';
 
@@ -17,7 +17,8 @@ export default function TopProjectedStat() {
         .filter(
           (a) =>
             a.start_date_local &&
-            a.start_date_local.slice(0, 4) === currentYearStr
+            a.start_date_local.slice(0, 4) === currentYearStr &&
+            isRunActivity(a)
         )
         .reduce((sum, a) => sum + (a.distance || 0), 0) / M_TO_DIST
     );

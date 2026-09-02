@@ -294,6 +294,21 @@ const sortDateFunc = (a: Activity, b: Activity) => {
 };
 const sortDateFuncReverse = (a: Activity, b: Activity) => sortDateFunc(b, a);
 
+const isRunActivity = (activity: Activity): boolean => {
+  const type = activity.type?.toLowerCase();
+  return (
+    !type ||
+    type === 'run' ||
+    type === 'running' ||
+    type === 'trailrun' ||
+    type === 'virtualrun' ||
+    type === 'walking' ||
+    type === 'walk' ||
+    type === 'hiking' ||
+    type === 'hike'
+  );
+};
+
 export {
   titleForShow,
   formatPace,
@@ -309,4 +324,5 @@ export {
   sortDateFuncReverse,
   formatRunTime,
   convertMovingTime2Sec,
+  isRunActivity,
 };
