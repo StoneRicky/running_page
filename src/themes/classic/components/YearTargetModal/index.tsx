@@ -272,20 +272,10 @@ const YearTargetModal = ({ initialYear, onClose }: YearTargetModalProps) => {
         {/* Mobile Drag Handle */}
         <div className={styles.dragHandle} />
 
-        {/* Close Button */}
-        <button
-          className={styles.closeButton}
-          onClick={onClose}
-          aria-label="Close modal"
-          title="关闭"
-        >
-          <CloseIcon />
-        </button>
-
         {/* Header Area */}
         <div className="mb-4">
-          {/* Year Switcher */}
-          <div className="mb-3.5 pr-8">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            {/* Year Switcher */}
             <div className={styles.yearSelector}>
               {availableYears.map((yr) => {
                 const isSelected = yr === selectedYear;
@@ -304,23 +294,9 @@ const YearTargetModal = ({ initialYear, onClose }: YearTargetModalProps) => {
                 );
               })}
             </div>
-          </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h2 className="text-2xl font-bold tracking-tight text-[var(--color-primary)]">
-                {selectedYear}
-              </h2>
-              <p className="mt-0.5 text-xs text-[var(--color-run-table-thead)] opacity-85 sm:text-sm">
-                目标{' '}
-                <span className="font-bold">
-                  {formatNumber(stats.targetDistance, 0)} {DIST_UNIT}
-                </span>
-              </p>
-            </div>
-
-            {/* Status Badge */}
-            <div>
+            {/* Status Badge & Close Button */}
+            <div className="flex items-center gap-2.5">
               {stats.isCompleted ? (
                 <span className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/15 px-3 py-1 text-xs font-bold text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400">
                   <TrophyIcon className="h-3.5 w-3.5" />
@@ -339,13 +315,23 @@ const YearTargetModal = ({ initialYear, onClose }: YearTargetModalProps) => {
                   </span>
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1.5 rounded-lg border border-amber-500/30 bg-amber-500/15 px-3 py-1 text-xs font-bold text-amber-600 dark:bg-amber-500/20 dark:text-amber-400">
+                <span className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-500/30 bg-neutral-500/15 px-3 py-1 text-xs font-bold text-neutral-600 dark:bg-neutral-500/20 dark:text-neutral-300">
                   <ClockIcon className="h-3.5 w-3.5" />
                   <span>
                     落后进度 {stats.scheduleDiff.toFixed(1)} {DIST_UNIT}
                   </span>
                 </span>
               )}
+
+              {/* Close Button */}
+              <button
+                className={styles.closeButton}
+                onClick={onClose}
+                aria-label="Close modal"
+                title="关闭"
+              >
+                <CloseIcon />
+              </button>
             </div>
           </div>
         </div>
@@ -370,8 +356,9 @@ const YearTargetModal = ({ initialYear, onClose }: YearTargetModalProps) => {
             </div>
           </div>
 
-          {/* Running Distance Progress Bar */}
-          <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
+          {/* Running Distance Progress Bar with Inset Time Marker */}
+          <div className="relative my-2.5 h-2.5 w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
+            {/* Distance Progress Fill */}
             <div
               className="h-full rounded-full transition-all duration-700 ease-out"
               style={{
@@ -381,6 +368,62 @@ const YearTargetModal = ({ initialYear, onClose }: YearTargetModalProps) => {
                   : 'var(--color-primary)',
               }}
             />
+
+            {/* Inset Time Tick Marker (Current Year) */}
+            {stats.isCurrentYear && (
+              <div
+                className="pointer-events-none absolute inset-y-0 z-10 -translate-x-1/2"
+                style={{
+                  left: `${Math.min(100, Math.max(0, stats.timeProgressRate))}%`,
+                }}
+              >
+                <div className="h-full w-[2px] bg-white shadow-[0_0_6px_rgba(255,255,255,0.85)] dark:bg-white" />
+              </div>
+            )}
+          </div>
+
+          {/* Progress Sub-row (Persistent across all years to prevent modal height jump) */}
+          <div className="mt-2.5 flex min-h-[20px] flex-wrap items-center justify-between gap-1 text-[11px] text-[var(--color-run-table-thead)] opacity-85 sm:text-xs">
+            {stats.isCurrentYear ? (
+              <div className="flex items-center gap-1.5">
+                <ClockIcon className="h-3.5 w-3.5 opacity-70" />
+                <span>时间流逝:</span>
+                <span className="font-bold text-[var(--color-primary)]">
+                  {stats.timeProgressRate.toFixed(1)}%
+                </span>
+                <span className="opacity-75">
+                  (第 {stats.dayOfYear} 天 / 共 {stats.totalDays} 天)
+                </span>
+              </div>
+            ) : (
+              <div />
+            )}
+
+            <div>
+              {stats.isCurrentYear ? (
+                stats.progressRate >= stats.timeProgressRate ? (
+                  <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                    跑量领先时间 +
+                    {(stats.progressRate - stats.timeProgressRate).toFixed(1)}%
+                  </span>
+                ) : (
+                  <span className="font-semibold text-neutral-500 dark:text-neutral-400">
+                    跑量落后时间 -
+                    {(stats.timeProgressRate - stats.progressRate).toFixed(1)}%
+                  </span>
+                )
+              ) : (
+                <span
+                  className={
+                    stats.isCompleted
+                      ? 'font-semibold text-emerald-600 dark:text-emerald-400'
+                      : 'font-semibold text-neutral-500 dark:text-neutral-400'
+                  }
+                >
+                  {stats.isCompleted ? '已完成' : '未完成'}
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
@@ -413,13 +456,7 @@ const YearTargetModal = ({ initialYear, onClose }: YearTargetModalProps) => {
                     ? '最终未达差额:'
                     : '仍需跑量:'}
               </strong>
-              <span
-                className={
-                  stats.isCompleted
-                    ? 'font-bold text-emerald-500'
-                    : 'font-bold text-amber-500 dark:text-amber-400'
-                }
-              >
+              <span>
                 {stats.isCompleted ? '+' : ''}
                 {formatNumber(
                   stats.isCompleted
@@ -450,6 +487,12 @@ const YearTargetModal = ({ initialYear, onClose }: YearTargetModalProps) => {
               <span className={styles.cardHeaderTag}>TIMELINE</span>
             </div>
             <div className={styles.dataRow}>
+              <strong>当前理论应跑:</strong>
+              <span>
+                {formatNumber(stats.expectedDistance, 1)} {DIST_UNIT}
+              </span>
+            </div>
+            <div className={styles.dataRow}>
               <strong>当前所处天数:</strong>
               <span>
                 第 {stats.dayOfYear} 天 / 共 {stats.totalDays} 天
@@ -458,12 +501,6 @@ const YearTargetModal = ({ initialYear, onClose }: YearTargetModalProps) => {
             <div className={styles.dataRow}>
               <strong>全年剩余天数:</strong>
               <span>{stats.remainingDays} 天</span>
-            </div>
-            <div className={styles.dataRow}>
-              <strong>当前理论应跑:</strong>
-              <span>
-                {formatNumber(stats.expectedDistance, 1)} {DIST_UNIT}
-              </span>
             </div>
           </div>
 
@@ -478,13 +515,13 @@ const YearTargetModal = ({ initialYear, onClose }: YearTargetModalProps) => {
               </div>
               <span className={styles.cardHeaderTag}>QUOTA</span>
             </div>
-            {stats.isCompleted ? (
-              <div className="flex h-20 items-center justify-center text-center text-xs font-bold text-emerald-500">
-                已提前达标，无需额外跑量配额！
-              </div>
-            ) : stats.isPastYear ? (
+            {stats.isPastYear ? (
               <div className="flex h-20 items-center justify-center text-center text-xs opacity-75">
                 该年度已结束结算
+              </div>
+            ) : stats.isCompleted ? (
+              <div className="flex h-20 items-center justify-center text-center text-xs font-bold text-emerald-500">
+                已提前达标，无需额外跑量配额！
               </div>
             ) : (
               <>
@@ -541,17 +578,7 @@ const YearTargetModal = ({ initialYear, onClose }: YearTargetModalProps) => {
                     ? '挑战结果:'
                     : '预计达标日期:'}
               </strong>
-              <span
-                className={`font-bold ${
-                  stats.isCompleted
-                    ? 'text-emerald-500'
-                    : stats.isPastYear
-                      ? 'text-neutral-500 dark:text-neutral-400'
-                      : stats.estimatedGoalDate
-                        ? 'text-emerald-500'
-                        : 'text-amber-500 dark:text-amber-400'
-                }`}
-              >
+              <span>
                 {stats.isCompleted
                   ? stats.completionDate || '已完成'
                   : stats.isPastYear

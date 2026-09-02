@@ -76,9 +76,8 @@
 }
 
 .closeButton {
-  position: absolute;
-  top: 1.25rem;
-  right: 1.25rem;
+  position: relative;
+  flex-shrink: 0;
   width: 2.25rem;
   height: 2.25rem;
   display: flex;

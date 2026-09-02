@@ -109,10 +109,6 @@ const PROJECTED_TOOLTIP = (year: number | string): string =>
 const YEAR_TARGET_TITLE = IS_CHINESE
   ? '年度跑量 KPI 挑战'
   : 'Year Target KPI Challenge';
-const YEAR_TARGET_SUBTITLE = (year: number | string): string =>
-  IS_CHINESE
-    ? `每年至少跑满当年年份公里数 · ${year} 目标 ${year} KM`
-    : `Run the year in kilometers · ${year} Target: ${year} KM`;
 
 const ACTIVITY_TYPES = {
   RUN_GENERIC_TITLE,
@@ -179,7 +175,6 @@ export {
   PROJECTED_TITLE,
   PROJECTED_TOOLTIP,
   YEAR_TARGET_TITLE,
-  YEAR_TARGET_SUBTITLE,
 };
 
 const nike = 'rgb(224,237,94)'; // if you want to change the main color, modify this value in src/styles/variables.scss
