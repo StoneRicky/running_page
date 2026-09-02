@@ -207,8 +207,8 @@ hr {
   fill: transparent !important;
 }
 
-.github-svg rect[fill="#444444"],
-.github-year-svg rect[fill="#444444"] {
+.github-svg rect[fill='#444444'],
+.github-year-svg rect[fill='#444444'] {
   fill: var(--color-activity-card) !important;
 }
 

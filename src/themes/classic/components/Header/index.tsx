@@ -65,7 +65,7 @@ const Header = () => {
             </picture>
           </Link>
         </div>
-        <div className="flex items-center gap-2 sm:gap-3 text-[var(--color-brand)]">
+        <div className="flex items-center gap-2 text-[var(--color-brand)] sm:gap-3">
           <div className="flex h-10 items-center gap-1 rounded-full border border-[var(--color-hr)] bg-white/40 px-3.5 shadow-sm backdrop-blur-md dark:bg-black/25">
             {navLinks.map((n) =>
               n.url.startsWith('http') ? (

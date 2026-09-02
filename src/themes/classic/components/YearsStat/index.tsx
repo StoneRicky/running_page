@@ -33,7 +33,7 @@ const YearsStat = ({
         <TopProjectedStat />
       </div>
       <section className="mb-6 px-2 lg:px-0 lg:pl-6">
-        <div className="inline-flex items-center rounded-full border border-[var(--color-hr)] bg-white/40 px-4 py-1.5 text-xs font-semibold text-[var(--color-tx)] shadow-sm backdrop-blur-md dark:bg-black/25 sm:text-sm">
+        <div className="inline-flex items-center rounded-full border border-[var(--color-hr)] bg-white/40 px-4 py-1.5 text-xs font-semibold text-[var(--color-tx)] shadow-sm backdrop-blur-md sm:text-sm dark:bg-black/25">
           <span>{infoMessage}</span>
         </div>
       </section>

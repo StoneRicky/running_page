@@ -1004,7 +1004,9 @@ const ActivityList: React.FC = () => {
             <Suspense fallback={<div>Loading SVG...</div>}>
               {SelectedYearSvg ? (
                 // Show Year Summary SVG when a year is selected
-                <SelectedYearSvg className={`${styles.yearSummarySvg} year-summary-svg`} />
+                <SelectedYearSvg
+                  className={`${styles.yearSummarySvg} year-summary-svg`}
+                />
               ) : (
                 // Show Life SVG when no year is selected
                 <>
@@ -1026,9 +1028,7 @@ const ActivityList: React.FC = () => {
                   {sportType === 'skiing' && (
                     <SkiingSvg className={styles.lifeSvg} />
                   )}
-                  {sportType === 'all' && (
-                    <AllSvg className={styles.lifeSvg} />
-                  )}
+                  {sportType === 'all' && <AllSvg className={styles.lifeSvg} />}
                 </>
               )}
             </Suspense>
