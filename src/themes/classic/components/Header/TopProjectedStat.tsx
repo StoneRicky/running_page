@@ -42,9 +42,7 @@ export default function TopProjectedStat() {
   const [projectedValue, setProjectedValue] = useState<string>(getProjected);
 
   useInterval(() => {
-    if (!isModalOpen) {
-      setProjectedValue(getProjected());
-    }
+    setProjectedValue(getProjected());
   }, 100);
 
   const handleClose = useCallback(() => {
