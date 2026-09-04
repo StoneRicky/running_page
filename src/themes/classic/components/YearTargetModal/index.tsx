@@ -1,10 +1,18 @@
-import { useState, useEffect, useMemo, useRef, type TouchEvent } from 'react';
+import {
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  memo,
+  type TouchEvent,
+} from 'react';
 import useActivities from '../../hooks/useActivities';
 import { DIST_UNIT } from '../../utils/utils';
 import {
   calculateYearTargetStat,
   type YearTargetStat,
 } from '../../utils/yearTargetUtils';
+import ProgressLineChart from './ProgressLineChart';
 import styles from './style.module.css';
 
 interface YearTargetModalProps {
@@ -174,9 +182,30 @@ const CloseIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (
   </svg>
 );
 
+const BarChartIcon = ({
+  className = 'w-3.5 h-3.5',
+}: {
+  className?: string;
+}) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.75"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <line x1="18" x2="18" y1="20" y2="10" />
+    <line x1="12" x2="12" y1="20" y2="4" />
+    <line x1="6" x2="6" y1="20" y2="14" />
+  </svg>
+);
+
 const YearTargetModal = ({ initialYear, onClose }: YearTargetModalProps) => {
   const { activities, years } = useActivities();
   const [currentActualYear] = useState(() => new Date().getFullYear());
+  const [viewMode, setViewMode] = useState<'bar' | 'chart'>('bar');
 
   // Parse initial selected year
   const defaultYear = initialYear
@@ -273,80 +302,82 @@ const YearTargetModal = ({ initialYear, onClose }: YearTargetModalProps) => {
         <div className={styles.dragHandle} />
 
         {/* Header Area */}
-        <div className="mb-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            {/* Year Switcher */}
-            <div className={styles.yearSelector}>
-              {availableYears.map((yr) => {
-                const isSelected = yr === selectedYear;
-                const isCurr = yr === currentActualYear;
-                return (
-                  <button
-                    key={yr}
-                    onClick={() => setSelectedYear(yr)}
-                    className={`${styles.yearButton} ${
-                      isSelected ? styles.yearButtonActive : ''
-                    }`}
-                  >
-                    <span>{yr}</span>
-                    {isCurr && <FlameIcon className="text-amber-400" />}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Status Badge & Close Button */}
-            <div className="flex items-center gap-2.5">
-              {stats.isCompleted ? (
-                <span className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/15 px-3 py-1 text-xs font-bold text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400">
-                  <TrophyIcon className="h-3.5 w-3.5" />
-                  <span>已达成 {stats.progressRate.toFixed(1)}%</span>
-                </span>
-              ) : stats.isPastYear ? (
-                <span className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-500/30 bg-neutral-500/15 px-3 py-1 text-xs font-bold text-neutral-600 dark:bg-neutral-500/20 dark:text-neutral-300">
-                  <FlagIcon className="h-3.5 w-3.5" />
-                  <span>最终完成 {stats.progressRate.toFixed(1)}%</span>
-                </span>
-              ) : stats.isAhead ? (
-                <span className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/15 px-3 py-1 text-xs font-bold text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400">
-                  <LightningIcon className="h-3.5 w-3.5" />
-                  <span>
-                    超前进度 +{stats.scheduleDiff.toFixed(1)} {DIST_UNIT}
-                  </span>
-                </span>
-              ) : (
-                <span className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-500/30 bg-neutral-500/15 px-3 py-1 text-xs font-bold text-neutral-600 dark:bg-neutral-500/20 dark:text-neutral-300">
-                  <ClockIcon className="h-3.5 w-3.5" />
-                  <span>
-                    落后进度 {stats.scheduleDiff.toFixed(1)} {DIST_UNIT}
-                  </span>
-                </span>
-              )}
-
-              {/* Close Button */}
-              <button
-                className={styles.closeButton}
-                onClick={onClose}
-                aria-label="Close modal"
-                title="关闭"
-              >
-                <CloseIcon />
-              </button>
-            </div>
+        <div className={styles.header}>
+          {/* Year Switcher */}
+          <div className={styles.yearSelector}>
+            {availableYears.map((yr) => {
+              const isSelected = yr === selectedYear;
+              const isCurr = yr === currentActualYear;
+              return (
+                <button
+                  key={yr}
+                  onClick={() => setSelectedYear(yr)}
+                  className={`${styles.yearButton} ${
+                    isSelected ? styles.yearButtonActive : ''
+                  }`}
+                >
+                  <span>{yr}</span>
+                  {isCurr && <FlameIcon className="text-amber-400" />}
+                </button>
+              );
+            })}
           </div>
+
+          {/* Status Badge */}
+          <div className={styles.statusBadgeContainer}>
+            {stats.isCompleted ? (
+              <span className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/15 px-3 py-1 text-xs font-bold text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400">
+                <TrophyIcon className="h-3.5 w-3.5" />
+                <span>已达成 {stats.progressRate.toFixed(1)}%</span>
+              </span>
+            ) : stats.isPastYear ? (
+              <span className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-500/30 bg-neutral-500/15 px-3 py-1 text-xs font-bold text-neutral-600 dark:bg-neutral-500/20 dark:text-neutral-300">
+                <FlagIcon className="h-3.5 w-3.5" />
+                <span>最终完成 {stats.progressRate.toFixed(1)}%</span>
+              </span>
+            ) : stats.isAhead ? (
+              <span className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/15 px-3 py-1 text-xs font-bold text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400">
+                <LightningIcon className="h-3.5 w-3.5" />
+                <span>
+                  超前进度 +{stats.scheduleDiff.toFixed(1)} {DIST_UNIT}
+                </span>
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-500/30 bg-neutral-500/15 px-3 py-1 text-xs font-bold text-neutral-600 dark:bg-neutral-500/20 dark:text-neutral-300">
+                <ClockIcon className="h-3.5 w-3.5" />
+                <span>
+                  落后进度 {stats.scheduleDiff.toFixed(1)} {DIST_UNIT}
+                </span>
+              </span>
+            )}
+          </div>
+
+          {/* Close Button */}
+          <button
+            className={styles.closeButton}
+            onClick={onClose}
+            aria-label="Close modal"
+            title="关闭"
+          >
+            <CloseIcon />
+          </button>
         </div>
 
-        {/* Progress Bar Section */}
+        {/* Progress Section (Supports Bar & Chart toggle) */}
         <div className={`mb-4 p-4 ${styles.glassBox}`}>
           <div className="mb-2.5 flex items-center justify-between gap-2 text-xs sm:text-sm">
-            <div>
-              <strong className="text-[var(--color-primary)]">已完成: </strong>
-              <span className="font-bold text-[var(--color-run-table-thead)]">
-                {formatNumber(stats.completedDistance, 2)} {DIST_UNIT}
-              </span>
-            </div>
-            <div className="rounded-lg bg-[var(--color-primary)]/15 px-2.5 py-0.5 text-xs font-bold text-[var(--color-primary)]">
-              {stats.progressRate.toFixed(1)}%
+            <div className="flex items-center gap-2">
+              <div>
+                <strong className="text-[var(--color-primary)]">
+                  已完成:{' '}
+                </strong>
+                <span className="font-bold text-[var(--color-run-table-thead)]">
+                  {formatNumber(stats.completedDistance, 2)} {DIST_UNIT}
+                </span>
+              </div>
+              <div className="rounded-lg bg-[var(--color-primary)]/15 px-2.5 py-0.5 text-xs font-bold text-[var(--color-primary)]">
+                {stats.progressRate.toFixed(1)}%
+              </div>
             </div>
             <div>
               <strong className="text-[var(--color-primary)]">目标: </strong>
@@ -356,72 +387,113 @@ const YearTargetModal = ({ initialYear, onClose }: YearTargetModalProps) => {
             </div>
           </div>
 
-          {/* Running Distance Progress Bar with Inset Time Marker */}
-          <div className="relative my-2.5 h-2.5 w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
-            {/* Distance Progress Fill */}
-            <div
-              className="h-full rounded-full transition-all duration-700 ease-out"
-              style={{
-                width: `${Math.min(100, stats.progressRate)}%`,
-                backgroundColor: stats.isCompleted
-                  ? '#10b981'
-                  : 'var(--color-primary)',
-              }}
-            />
-
-            {/* Inset Time Tick Marker (Current Year) */}
-            {stats.isCurrentYear && (
-              <div
-                className="pointer-events-none absolute inset-y-0 z-10 -translate-x-1/2"
-                style={{
-                  left: `${Math.min(100, Math.max(0, stats.timeProgressRate))}%`,
-                }}
+          {/* Toggle Switch Row */}
+          <div className="mb-3 flex items-center justify-between border-t border-[var(--color-hr)] pt-2.5">
+            <span className="text-xs font-semibold text-[var(--color-run-table-thead)] opacity-75 sm:text-sm">
+              {viewMode === 'bar' ? '进度刻度视图' : '年度趋势对比'}
+            </span>
+            <div className={styles.viewToggleGroup}>
+              <button
+                type="button"
+                onClick={() => setViewMode('bar')}
+                className={`${styles.viewToggleButton} ${
+                  viewMode === 'bar' ? styles.viewToggleActive : ''
+                }`}
               >
-                <div className="h-full w-[2px] bg-white shadow-[0_0_6px_rgba(255,255,255,0.85)] dark:bg-white" />
-              </div>
-            )}
+                <BarChartIcon className="h-3.5 w-3.5" />
+                <span>进度条</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode('chart')}
+                className={`${styles.viewToggleButton} ${
+                  viewMode === 'chart' ? styles.viewToggleActive : ''
+                }`}
+              >
+                <TrendingUpIcon className="h-3.5 w-3.5" />
+                <span>趋势图</span>
+              </button>
+            </div>
           </div>
 
-          {/* Progress Sub-row (Persistent across all years to prevent modal height jump) */}
-          <div className="mt-2.5 flex min-h-[20px] flex-wrap items-center justify-between gap-1 text-[11px] text-[var(--color-run-table-thead)] opacity-85 sm:text-xs">
-            {stats.isCurrentYear ? (
-              <div className="flex items-center gap-1.5">
-                <ClockIcon className="h-3.5 w-3.5 opacity-70" />
-                <span>时间流逝:</span>
-                <span className="font-bold text-[var(--color-primary)]">
-                  {stats.timeProgressRate.toFixed(1)}%
-                </span>
-                <span className="opacity-75">
-                  (第 {stats.dayOfYear} 天 / 共 {stats.totalDays} 天)
-                </span>
-              </div>
-            ) : (
-              <div />
-            )}
+          {/* Bar View — smooth transition wrapper */}
+          <div
+            className={`${styles.viewCollapseWrapper} ${
+              viewMode === 'bar' ? styles.viewCollapseWrapperActive : ''
+            }`}
+          >
+            <div className={styles.viewCollapseInner}>
+              {/* Running Distance Progress Bar with Inset Time Marker */}
+              <div className="relative my-2.5 h-2.5 w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
+                {/* Distance Progress Fill */}
+                <div
+                  className="h-full rounded-full transition-all duration-700 ease-out"
+                  style={{
+                    width: `${Math.min(100, stats.progressRate)}%`,
+                    backgroundColor: stats.isCompleted
+                      ? '#10b981'
+                      : 'var(--color-primary)',
+                  }}
+                />
 
-            <div>
-              {stats.isCurrentYear ? (
-                stats.progressRate >= stats.timeProgressRate ? (
-                  <span className="font-semibold text-emerald-600 dark:text-emerald-400">
-                    跑量领先时间 +
-                    {(stats.progressRate - stats.timeProgressRate).toFixed(1)}%
-                  </span>
+                {/* Inset Time Tick Marker (Current Year) */}
+                {stats.isCurrentYear && (
+                  <div
+                    className="pointer-events-none absolute inset-y-0 z-10 -translate-x-1/2"
+                    style={{
+                      left: `${Math.min(100, Math.max(0, stats.timeProgressRate))}%`,
+                    }}
+                  >
+                    <div className="h-full w-[2px] bg-white shadow-[0_0_6px_rgba(255,255,255,0.85)] dark:bg-white" />
+                  </div>
+                )}
+              </div>
+
+              {/* Progress Sub-row (Persistent across all years to prevent modal height jump) */}
+              <div className="mt-2.5 flex min-h-[22px] flex-wrap items-center justify-between gap-1 text-xs text-[var(--color-run-table-thead)] opacity-85 sm:text-sm">
+                {stats.isCurrentYear ? (
+                  <div className="flex items-center gap-1.5">
+                    <ClockIcon className="h-4 w-4 opacity-70" />
+                    <span>时间流逝:</span>
+                    <span className="font-bold text-[var(--color-primary)]">
+                      {stats.timeProgressRate.toFixed(1)}%
+                    </span>
+                    <span className="opacity-75">
+                      (第 {stats.dayOfYear} 天 / 共 {stats.totalDays} 天)
+                    </span>
+                  </div>
                 ) : (
-                  <span className="font-semibold text-neutral-500 dark:text-neutral-400">
-                    跑量落后时间 -
-                    {(stats.timeProgressRate - stats.progressRate).toFixed(1)}%
+                  <div />
+                )}
+
+                <div>
+                  <span
+                    className={
+                      stats.isCompleted
+                        ? 'font-semibold text-emerald-600 dark:text-emerald-400'
+                        : 'font-semibold text-neutral-500 dark:text-neutral-400'
+                    }
+                  >
+                    {stats.isCompleted ? '已完成' : '未完成'}
                   </span>
-                )
-              ) : (
-                <span
-                  className={
-                    stats.isCompleted
-                      ? 'font-semibold text-emerald-600 dark:text-emerald-400'
-                      : 'font-semibold text-neutral-500 dark:text-neutral-400'
-                  }
-                >
-                  {stats.isCompleted ? '已完成' : '未完成'}
-                </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Chart View — smooth transition wrapper */}
+          <div
+            className={`${styles.viewCollapseWrapper} ${
+              viewMode === 'chart' ? styles.viewCollapseWrapperActive : ''
+            }`}
+          >
+            <div className={styles.viewCollapseInner}>
+              {viewMode === 'chart' && (
+                <ProgressLineChart
+                  year={selectedYear}
+                  targetDistance={stats.targetDistance}
+                  activities={activities}
+                />
               )}
             </div>
           </div>
@@ -607,4 +679,4 @@ const YearTargetModal = ({ initialYear, onClose }: YearTargetModalProps) => {
   );
 };
 
-export default YearTargetModal;
+export default memo(YearTargetModal);

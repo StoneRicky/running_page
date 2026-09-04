@@ -44,6 +44,61 @@
   display: none;
 }
 
+.header {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 12px;
+}
+
+.statusBadgeContainer {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  justify-content: flex-end;
+  order: 2;
+}
+
+.closeButton {
+  position: relative;
+  flex-shrink: 0;
+  order: 3;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background-color: var(--color-background);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-hr);
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background-color: var(--color-primary);
+  color: var(--color-background);
+  border-color: var(--color-primary);
+}
+
+.yearSelector {
+  order: 1;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  padding: 3px;
+  border-radius: 9999px;
+  border: 1px solid var(--color-hr);
+  background-color: rgba(128, 128, 128, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
 @media (max-width: 640px) {
   .overlay {
     align-items: flex-end;
@@ -73,42 +128,23 @@
     margin: 0 auto 12px auto;
     cursor: grab;
   }
-}
 
-.closeButton {
-  position: relative;
-  flex-shrink: 0;
-  width: 2.25rem;
-  height: 2.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  background-color: var(--color-background);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--color-hr);
-  color: var(--color-primary);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
+  .header {
+    row-gap: 12px;
+    margin-bottom: 12px;
+  }
 
-.closeButton:hover {
-  background-color: var(--color-primary);
-  color: var(--color-background);
-  border-color: var(--color-primary);
-}
+  .closeButton {
+    order: 2;
+  }
 
-.yearSelector {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  align-items: center;
-  padding: 3px;
-  border-radius: 9999px;
-  border: 1px solid var(--color-hr);
-  background-color: rgba(128, 128, 128, 0.05);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  .statusBadgeContainer {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-start;
+    padding-left: 12px;
+  }
 }
 
 :global([data-theme='dark']) .yearSelector {
@@ -273,4 +309,161 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* View Toggle Pill Group */
+.viewToggleGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 8px;
+  background-color: rgba(128, 128, 128, 0.08);
+  border: 1px solid var(--color-hr);
+}
+
+.viewToggleButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-run-table-thead);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.viewToggleButton:hover {
+  color: var(--color-primary);
+}
+
+.viewToggleActive {
+  background-color: var(--color-background);
+  color: var(--color-primary) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+:global([data-theme='dark']) .viewToggleGroup {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+:global([data-theme='dark']) .viewToggleActive {
+  background-color: rgba(255, 255, 255, 0.14);
+  color: #ffffff !important;
+}
+
+/* Custom Chart Tooltip */
+.chartTooltip {
+  border-radius: 12px;
+  border: 1px solid var(--color-hr);
+  background-color: var(--color-background);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  padding: 10px 14px;
+  font-size: 13px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  color: var(--color-run-table-thead);
+  min-width: 170px;
+  pointer-events: none;
+}
+
+.chartTooltipDate {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--color-primary);
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--color-hr);
+  padding-bottom: 4px;
+}
+
+.chartTooltipRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 4px 0;
+}
+
+.chartTooltipDotActual {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.chartTooltipDotExpected {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-run-table-thead);
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.chartTooltipLabel {
+  opacity: 0.8;
+  margin-right: auto;
+}
+
+.chartTooltipValActual {
+  font-weight: 700;
+  color: var(--color-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.chartTooltipValExpected {
+  font-weight: 600;
+  color: var(--color-run-table-thead);
+  font-variant-numeric: tabular-nums;
+}
+
+.chartTooltipDiff {
+  margin-top: 6px;
+  padding-top: 5px;
+  border-top: 1px dashed var(--color-hr);
+  text-align: right;
+  font-size: 12px;
+}
+
+@keyframes chartFadeIn {
+  from {
+    opacity: 0.2;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chartFadeIn {
+  animation: chartFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* View transition accordion wrapper */
+.viewCollapseWrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    grid-template-rows 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.25s ease,
+    visibility 0.32s ease;
+}
+
+.viewCollapseWrapperActive {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+}
+
+.viewCollapseInner {
+  overflow: hidden;
 }

@@ -42,8 +42,14 @@ export default function TopProjectedStat() {
   const [projectedValue, setProjectedValue] = useState<string>(getProjected);
 
   useInterval(() => {
-    setProjectedValue(getProjected());
+    if (!isModalOpen) {
+      setProjectedValue(getProjected());
+    }
   }, 100);
+
+  const handleClose = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
 
   return (
     <>
@@ -79,10 +85,7 @@ export default function TopProjectedStat() {
       </div>
 
       {isModalOpen && (
-        <YearTargetModal
-          initialYear={currentYear}
-          onClose={() => setIsModalOpen(false)}
-        />
+        <YearTargetModal initialYear={currentYear} onClose={handleClose} />
       )}
     </>
   );
